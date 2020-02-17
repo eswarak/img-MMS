@@ -3,7 +3,7 @@
 This is a simple example of using and updating a Horizon ML edge service.
 
 - [Introduction to the Horizon Model Management Service](#introduction)
-- [Preconditions for Using the Hello MMS Example Edge Service](#preconditions)
+- [Preconditions for Using the ML MMS Example Edge Service](#preconditions)
 - [Using the ML Tensorflow MMS Example Edge Service with Deployment Pattern](#using-image-mms-pattern)
 - [More MMS Details](#mms-deets)
 - [Creating Your Own Example with MMS Edge Service](CreateService.md)
@@ -14,9 +14,9 @@ The Horizon Model Management Service (MMS) enables you to have independent lifec
 
 This document will walk you through the process of using the Model Management Service to send a file to your edge nodes. It also shows how your nodes can detect the arrival of a new version of the file, and then consume the contents of the file.
 
-## <a id=preconditions></a> Preconditions for Using the Hello MMS Example Edge Service
+## <a id=preconditions></a> Preconditions for Using the ML MMS Example Edge Service
 
-If you haven't done so already, you must do these steps before proceeding with the hello-mms example:
+If you haven't done so already, you must do these steps before proceeding with the ML model mms example:
 
 1. Install the Horizon management infrastructure (exchange and agbot).
 
@@ -45,7 +45,7 @@ hzn exchange node confirm
 
 ## <a id=using-image-mms-pattern></a> Using the ML Model MMS Example Edge Service with Deployment Pattern
 
-1. Register your edge node with Horizon to use the hello-mms pattern:
+1. Register your edge node with Horizon to use the image-tf-mms pattern:
 
 ```bash
 hzn register -p iportilla/pattern-image-ts-mms-amd64
@@ -63,7 +63,7 @@ hzn agreement list
 sudo docker ps
 ```
 
-4. See the hello-mms service output (you should see the message **<your-node-id> says: Hello World!**:
+4. See the image-tf-mms service output:
 
   on **Linux**:
 
@@ -75,16 +75,16 @@ sudo docker ps
 
   ```bash
   sudo docker logs -f $(sudo docker ps -q --filter name=ESS)
+  
+  open a modern browser (Chrome) and navigate to http:/HOSTNAME:9080, open Developer tools and watch the Web Console (HOSTNAME or IP or your node)
   ```
 
-5. While observing the output, in another terminal, open the `object.json` file and change the `destinationID` value to your node id.
-
-6. Publish the `index.js` file as a new mms object:
+5. Publish the `index.js` file as a new mms object:
 ```bash
 hzn mms object publish -m mms/object.json -f index.js
 ```
 
-7. View the published mms object:
+5. View the published mms object:
 ```bash
 hzn mms object list -t js -i index.js -d
 ```
@@ -98,7 +98,7 @@ to **Load cocoSSD**
 hzn mms object delete -t js --id index.js
 ```
 
-9. Unregister your edge node (which will also stop the hello-mms service):
+9. Unregister your edge node (which will also stop the image-tf-mms service):
 
 ```bash
 hzn unregister -f
