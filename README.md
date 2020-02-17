@@ -45,6 +45,8 @@ hzn exchange node confirm
 
 ## <a id=using-image-mms-pattern></a> Using the ML Model MMS Example Edge Service with Deployment Pattern
 
+![MMS Example workflow](MMSExample.png)
+
 1. Register your edge node with Horizon to use the image-tf-mms pattern:
 
 ```bash
