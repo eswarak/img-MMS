@@ -1,0 +1,32 @@
+<!--
+<script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@1.0.0/dist/tf.min.js"></script>
+-->
+<html>
+  <head>
+    <!-- Load the latest version of TensorFlow.js -->
+    <script src="https://unpkg.com/@tensorflow/tfjs"></script>
+    <!-- Load the mobile-net model. -->
+    <script src="https://unpkg.com/@tensorflow-models/mobilenet"></script>
+    <!-- Load the coco-ssd model. -->
+    <script src="https://unpkg.com/@tensorflow-models/coco-ssd"></script>
+  </head>
+  <body>
+    <h1>TensorFlow.js Image Analysis Example</h1>
+    <button type="button" id="toggle" onclick="toggleImage('img','cat.jpg','dog.jpg')">Toggle Image</button>
+    </p>
+    <div id="console"></div>
+    <!-- Add an image that we will use to test
+    <img id="img" crossorigin src="https://i.imgur.com/JlUvsxa.jpg" width="227" height="227"/>
+     <img id="img" src="cows.jpeg" />
+     <img id="img" src="dogs.jpeg" />
+     <img id="img" src="cat.jpg" />
+        <img id="img" src="squirrel.jpg" />
+         <img id="img" crossorigin='anonymous' onclick="toggleImage('img','fox.jpg','cat.jpg')" src="fox.jpg"  />
+    -->
+
+
+    <img id="img" crossorigin='anonymous' onclick="toggleImage('img','cat.jpg','dog.jpg')" src="cat.jpg"  />
+    <!-- Load index.js after the content of the page -->
+    <script src="index.js"></script>
+  </body>
+</html>
