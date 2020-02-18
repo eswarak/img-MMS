@@ -1,5 +1,6 @@
 FROM alpine
 
+
 RUN apk update \
     && apk add lighttpd \
     && rm -rf /var/cache/apk/*
@@ -8,15 +9,9 @@ RUN apk --no-cache --update add jq curl bash
 
 
 COPY /html/ /var/www/localhost/htdocs
-
 COPY *.sh /
-
 WORKDIR /
-
 RUN chmod +x /*.sh
-
 EXPOSE 80
 
 CMD ["/start.sh"]
-
-#CMD ["lighttpd","-D","-f","/etc/lighttpd/lighttpd.conf"]

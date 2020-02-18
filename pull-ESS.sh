@@ -1,8 +1,12 @@
 #!/bin/bash
 
 # Very simple Horizon sample using the MMS feature to update index.jx
+OBJECT_ID="index.js"
+DESTINATION_PATH="/tmp/${OBJECT_ID}"
+OBJECT_TYPE="js"
 
-echo "started pull-ESS ..."
+
+echo "DEBUG: started pull-ESS ..."
 
 # ${HZN_ESS_AUTH} is mounted to this container and contains a json file with the credentials for authenticating to the ESS.
 USER=$(cat ${HZN_ESS_AUTH} | jq -r ".id")
@@ -20,20 +24,20 @@ echo " auth, cert, baseURL: ${AUTH}${CERT}${BASEURL} ..."
 FILES=/tmp/*
 
 hasData() {
-	echo '*******   New valid file was found in ESS'
+	echo 'DEBUG: *******   New valid file was found in ESS'
         cp /tmp/index.js /var/www/localhost/htdocs/index.js
         echo 'ESS index.js updated'
 }
 
 noData() {
-	echo "******    ESS File exists but empty"
+	echo "DEBUG: ******    ESS File exists but empty"
 	#rm /tmp/index.js
 }
 
 checkUpdates() {
 	for f in $FILES
 	do
-	echo "ESS Processing $f file ..."
+	echo "DEBUG: ESS Processing $f file ..."
   	if [ -s $f ]
   	then
     		hasData
@@ -48,7 +52,9 @@ while true; do
     sleep  30
 
     # read in new file from the ESS
-    DATA=$(curl -sL -o /tmp/index.js ${AUTH}${CERT}${BASEURL}js/index.js/data)
+    #DATA=$(curl -sL -o /tmp/index.js ${AUTH}${CERT}${BASEURL}js/index.js/data)
+     # read in new file from the ESS
+    DATA=$(curl -sL -o ${DESTINATION_PATH} ${AUTH}${CERT}${BASEURL}${OBJECT_TYPE}/${OBJECT_ID}/data)
 
     #check updates
     checkUpdates
