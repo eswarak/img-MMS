@@ -35,13 +35,26 @@ sudo docker ps
 
   open a modern browser (Chrome) and navigate to http:/HOSTNAME:9080, open Developer tools and watch the Web Console (HOSTNAME or IP or your node)
   ```
+5. Open Chrome and navigate to HTTP://HOSTNAME:9080 where HOSTNAME=Node Server Name or IP address
 
-5. Publish the `index.js` file as a new mms object:
+
+6. Open the Web Console in More Tools \ Developer tools
+(demo.png)
+
+7. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image to see the Image analysis results
+
+(console1.png)
+
+8. Review the metadata needed to publish objects using MMS publish capabilities
+
+(../mms/object.json)
+
+9. Publish the `index.js` file as a new mms object to update the existing ML model:
 ```bash
 hzn mms object publish -m mms/object.json -f index.js
 ```
 
-5. View the published mms object:
+10. View the published mms object:
 ```bash
 hzn mms object list -t js -i index.js -d
 ```
@@ -50,12 +63,16 @@ Once the `Object status` changes to `delivered` you will see the output of the i
 from **load MobileNet**
 to **Load cocoSSD**
 
-8. Delete the published mms object:
+(console2.png)
+
+Optional:
+
+11. Delete the published mms object:
 ```bash
 hzn mms object delete -t js --id index.js
 ```
 
-9. Unregister your edge node (which will also stop the image-tf-mms service):
+12. Unregister your edge node (which will also stop the image-tf-mms service):
 
 ```bash
 hzn unregister -f
