@@ -4,6 +4,7 @@ This is a simple example of using and updating a Horizon ML edge service.
 
 - [Introduction to the Horizon Model Management Service](#introduction)
 - [Preconditions for Using the ML MMS Example Edge Service](#preconditions)
+- [Preconditions for Using the ML MMS Example Edge Service](docs/preconditions.md)
 - [Using the ML Tensorflow MMS Example Edge Service with Deployment Pattern](#using-image-mms-pattern)
 - [More MMS Details](#mms-deets)
 - [Creating Your Own Example with MMS Edge Service](CreateService.md)
@@ -77,7 +78,7 @@ sudo docker ps
 
   ```bash
   sudo docker logs -f $(sudo docker ps -q --filter name=ESS)
-  
+
   open a modern browser (Chrome) and navigate to http:/HOSTNAME:9080, open Developer tools and watch the Web Console (HOSTNAME or IP or your node)
   ```
 
@@ -91,8 +92,8 @@ hzn mms object publish -m mms/object.json -f index.js
 hzn mms object list -t js -i index.js -d
 ```
 
-Once the `Object status` changes to `delivered` you will see the output of the image classification service change 
-from **load MobileNet** 
+Once the `Object status` changes to `delivered` you will see the output of the image classification service change
+from **load MobileNet**
 to **Load cocoSSD**
 
 8. Delete the published mms object:
@@ -127,4 +128,3 @@ To delete a specific object, of type `<my-type>` with ID `<my-id>` you can use, 
 To view the current MMS status, use, `hzn mms status`.
 
 See more examples at: (https://github.com/open-horizon/examples/tree/master/edge/services/helloMMS)
-
