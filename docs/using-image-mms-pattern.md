@@ -39,15 +39,17 @@ sudo docker ps
 
 
 6. Open the Web Console in More Tools \ Developer tools
-(demo.png)
+![MMS Example page](demo.png)
 
 7. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image to see the Image analysis results
 
-(console1.png)
+![MMS Example console](console1.png)
+(
 
 8. Review the metadata needed to publish objects using MMS publish capabilities
 
 (../mms/object.json)
+![MMS Example object json](../mms/object.json)
 
 9. Publish the `index.js` file as a new mms object to update the existing ML model:
 ```bash
@@ -63,8 +65,8 @@ Once the `Object status` changes to `delivered` you will see the output of the i
 from **load MobileNet**
 to **Load cocoSSD**
 
+![MMS Example console after](console2.png)
 
-(console2.png)
 
 Optional:
 
