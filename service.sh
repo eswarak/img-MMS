@@ -6,7 +6,6 @@ OBJECT_ID=index.js
 TEMP_DIR='/tmp'
 DESTINATION_PATH=${TEMP_DIR}/${OBJECT_ID}
 OBJECT_TYPE=js
-FILES=/tmp/*
 HT_DOCS=/var/www/localhost/htdocs
 RUN_TIME=10
 
