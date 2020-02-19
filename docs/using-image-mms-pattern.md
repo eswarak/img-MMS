@@ -44,12 +44,11 @@ sudo docker ps
 7. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image to see the Image analysis results
 
 ![MMS Example console](console1.png)
-(
+
 
 8. Review the metadata needed to publish objects using MMS publish capabilities
 
-(../mms/object.json)
-![MMS Example object json](../mms/object.json)
+![MMS Example object json](/mms/object.json)
 
 9. Publish the `index.js` file as a new mms object to update the existing ML model:
 ```bash
