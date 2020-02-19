@@ -4,10 +4,10 @@
 set -m
 
 # Start the primary process (http server) and put it in the background
-./start-http.sh &
+./httpd.sh &
 
 # Start the helper process (ESS pull service)
-./pull-ESS.sh
+./service.sh
 
 
 # the my_helper_process might need to know how to wait on the
