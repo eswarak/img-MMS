@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Very simple Horizon ML example using HZN MMS  to update ML model (index.js)
-#ML model as tensorflow js
+# The ML model
 OBJECT_ID="index.js"
 TEMP_DIR ="/tmp"
 DESTINATION_PATH="${TEMP_DIR}/${OBJECT_ID}"
@@ -24,8 +24,7 @@ CERT="--cacert ${HZN_ESS_CERT} "
 BASEURL='--unix-socket '${HZN_ESS_API_ADDRESS}' https://localhost/api/v1/objects/'
 echo " auth, cert, baseURL: ${AUTH}${CERT}${BASEURL} ..."
 
-#FILES=/tmp/*
-
+# Helper functions to check a valid model file has been pulled from ESS
 hasData() {
 	echo 'DEBUG: *******   New valid file was found in ESS'
         #cp /tmp/index.js /var/www/localhost/htdocs/index.js
@@ -36,13 +35,12 @@ hasData() {
 
 noData() {
 	echo "DEBUG: ******    ESS Model file exists but empty ..."
-	#rm /tmp/index.js
 }
 
 checkUpdates() {
 	for f in $TEMP_DIR
 	do
-	echo "DEBUG: ESS Processing $f file ..."
+	echo "DEBUG: ******* ESS Processing $f file ..."
   	if [ -s $f ]
   	then
     		hasData
@@ -56,11 +54,9 @@ while true; do
     echo "$HZN_DEVICE_ID is pulling ESS ..."
     sleep  30
 
-    # read in new file from the ESS
+    # read in new file from the ESS to a temporary location
     DATA=$(curl -sL -o ${DESTINATION_PATH} ${AUTH}${CERT}${BASEURL}${OBJECT_TYPE}/${OBJECT_ID}/data)
 
     #check updates
     checkUpdates
 done
-# see helloMMS for more details
-# https://github.com/open-horizon/examples/tree/master/edge/services/helloMMS
