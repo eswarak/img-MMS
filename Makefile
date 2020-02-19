@@ -26,8 +26,8 @@ build:
 	docker build -t $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION) -f ./Dockerfile.$(ARCH) .
 
 run:
-	docker run -d -p=$(PORT_NUM):80 --name=$(DOCKER_NAME) $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION)
 	@echo "Open your browser and go to http://localhost:9080"
+	docker run -d -p=$(PORT_NUM):80 --name=$(DOCKER_NAME) $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION)
 
 	# Publish the service to the Horizon Exchange for the current architecture
 publish-service:
@@ -59,6 +59,9 @@ delete-mms-object:
 register:
 	hzn register -p pattern-image-tf-mms-amd64
 
+  # unregiser node
+unregister:
+	hzn unregister -Df
 # Stop and remove a running container
 stop:
 	docker stop $(DOCKER_NAME); docker rm $(DOCKER_NAME)
