@@ -48,7 +48,7 @@ sudo docker ps
 
 8. Review the metadata needed to publish objects using MMS publish capabilities
 
-![MMS Example object json](/mms/object.json)
+[MMS Object JSON example](/mms/object.json)
 
 9. Publish the `index.js` file as a new mms object to update the existing ML model:
 ```bash
