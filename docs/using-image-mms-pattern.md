@@ -63,6 +63,7 @@ Once the `Object status` changes to `delivered` you will see the output of the i
 from **load MobileNet**
 to **Load cocoSSD**
 
+
 (console2.png)
 
 Optional:
