@@ -18,6 +18,10 @@ SERVICE_VERSION ?=1.0.0
 PORT_NUM ?=9080
 DOCKER_NAME ?=image-tf-mms
 
+# Configurable parameters passed to serviceTest.sh in "test" target
+export MATCH:='DEBUG'
+export TIME_OUT:=10
+
 default: all
 
 all: build run
