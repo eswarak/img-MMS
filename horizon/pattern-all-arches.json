@@ -1,8 +1,8 @@
 {
   "name": "pattern-$SERVICE_NAME",
-  "label": "Edge $SERVICE_NAME Service Pattern for all architectures",
+  "label": "Edge Example $SERVICE_NAME Service Pattern for all architectures",
   "description": "Pattern for $SERVICE_NAME",
-  "public": true,
+  "public": false,
   "services": [
     {
       "serviceUrl": "$SERVICE_NAME",

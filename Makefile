@@ -29,13 +29,30 @@ run:
 	@echo "Open your browser and go to http://localhost:9080"
 	docker run -d -p=$(PORT_NUM):80 --name=$(DOCKER_NAME) $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION)
 
-	# Publish the service to the Horizon Exchange for the current architecture
+  # Run and verify the service
+test: build
+	hzn dev service start -S
+	@echo 'Testing service...'
+	./serviceTest.sh $(SERVICE_NAME) $(MATCH) $(TIME_OUT) && \
+		{ hzn dev service stop; \
+		echo "*** Service test succeeded! ***"; } || \
+		{ hzn dev service stop; \
+		echo "*** Service test failed! ***"; \
+		false; }
+
+  # Publish the service to the Horizon Exchange for the current architecture
 publish-service:
 	hzn exchange service publish -O -f horizon/service.definition.json
 
-	# Publish the pattern to the Horizon Exchange for the current architecture
+  # Publish the pattern to the Horizon Exchange for the current architecture
 publish-pattern:
 	hzn exchange pattern publish -f horizon/pattern.json
+
+  # Build the docker image for 3 architectures
+build-all-arches:
+	ARCH=amd64 $(MAKE) build
+	ARCH=arm $(MAKE) build
+	ARCH=arm64 $(MAKE) build
 
   # target to publish new ML model file to mms
 publish-mms-object:
@@ -51,21 +68,21 @@ list-js:
 list-files:
 	sudo ls -Rla /var/horizon/ess-store/sync/local
 
- # target to delete input.json file in mms
+  # target to delete input.json file in mms
 delete-mms-object:
 	hzn mms object delete -t js --id index.js
 
- # register node
+  # register node
 register:
 	hzn register -p pattern-image-tf-mms-amd64
 
   # unregiser node
 unregister:
 	hzn unregister -Df
-# Stop and remove a running container
+	
+  # Stop and remove a running container
 stop:
 	docker stop $(DOCKER_NAME); docker rm $(DOCKER_NAME)
-
 
 # Clean the container
 clean:
