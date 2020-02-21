@@ -66,6 +66,9 @@ to **Load cocoSSD**
 
 ![MMS Example console after](console2.png)
 
+Test with the other image:
+![MMS Example console after image toggle](console3.png)
+
 
 Optional:
 
