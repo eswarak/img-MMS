@@ -15,4 +15,4 @@ The Horizon Model Management Service (MMS) enables you to have independent lifec
 This document will walk you through the process of using the Model Management Service to send a file to your edge nodes. It also shows how your nodes can detect the arrival of a new version of the file, and then consume the contents of the file.
 
 
-See more examples at: (https://github.com/open-horizon/examples/tree/master/edge/services/helloMMS)
+See more examples at: (https://github.com/open-horizon/examples/)
