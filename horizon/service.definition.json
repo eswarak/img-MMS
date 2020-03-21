@@ -1,9 +1,9 @@
 {
     "org": "$HZN_ORG_ID",
     "label": "$SERVICE_NAME for $ARCH",
-    "description": "A super-simple sample Horizon MMS updates",
+    "description": "A super-simple image demo with Horizon MMS updates",
     "public": false,
-    "documentation": "https://github.com/open-horizon/examples/blob/master/edge/services/helloworld/README.md",
+    "documentation": "https://github.com/open-horizon/examples/blob/master/edge/services/helloMMS/README.md",
     "url": "$SERVICE_NAME",
     "version": "$SERVICE_VERSION",
     "arch": "$ARCH",

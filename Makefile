@@ -12,11 +12,14 @@ SYSTEM_ARCH := $(shell uname -m | sed -e 's/aarch64.*/arm64/' -e 's/x86_64.*/amd
 # Default ARCH to the architecture of this machines (as horizon/golang describes it)
 export ARCH ?= $(shell hzn architecture)
 
-DOCKER_IMAGE_BASE ?= iportilla/image-tf-mms
-SERVICE_NAME ?=image.mms
+DOCKER_IMAGE_BASE ?= iportilla/image.demo-mms
+SERVICE_NAME ?=image.demo-mms
 SERVICE_VERSION ?=1.0.0
 PORT_NUM ?=9080
-DOCKER_NAME ?=image-tf-mms
+DOCKER_NAME ?=image.demo-mms
+OBJECT_TYPE ?=model
+OBJECT_ID ?=index.js
+
 
 # Configurable parameters passed to serviceTest.sh in "test" target
 export MATCH:='DEBUG'
@@ -65,21 +68,24 @@ publish-mms-object:
 
   # target to list mms object
 list-mms-object:
-	hzn mms object list -t js -i index.js -d
+	hzn mms object list -t $(OBJECT_TYPE) -i $(OBJECT_ID) -d
 
-list-js:
-	hzn mms object list -t js -i index.js -d
+list-model:
+	hzn mms object list -t $(OBJECT_TYPE) -i $(OBJECT_ID) -d
 
 list-files:
 	sudo ls -Rla /var/horizon/ess-store/sync/local
 
   # target to delete input.json file in mms
 delete-mms-object:
-	hzn mms object delete -t js --id index.js
+	hzn mms object delete -t $(OBJECT_TYPE) --id $(OBJECT_ID) 
 
   # register node
-register:
+register-pattern:
 	hzn register -p pattern-image-tf-mms-amd64
+
+register-policy:
+	hzn register --policy=horizon/node.policy.json
 
   # unregiser node
 unregister:

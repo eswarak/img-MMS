@@ -5,7 +5,8 @@
 OBJECT_ID=index.js
 TEMP_DIR='/tmp'
 DESTINATION_PATH=${TEMP_DIR}/${OBJECT_ID}
-OBJECT_TYPE=js
+OBJECT_TYPE=model
+#OBJECT_TYPE=js
 HT_DOCS=/var/www/localhost/htdocs
 RUN_TIME=10
 
@@ -22,13 +23,19 @@ AUTH="-u ${USER}:${PW} "
 CERT="--cacert ${HZN_ESS_CERT} "
 
 BASEURL='--unix-socket '${HZN_ESS_API_ADDRESS}' https://localhost/api/v1/objects/'
-echo " auth, cert, baseURL: ${AUTH}${CERT}${BASEURL} ..."
+echo "DEBUG: ****   auth, cert, baseURL: ${AUTH}${CERT}${BASEURL} ..."
 
 # Helper functions to check a valid model file has been pulled from ESS
 hasData() {
+   afilesize=$(wc -c "/tmp/index.js" | awk '{print $1}')
+   if (($afilesize > 100 ))#It is a valid model
+   then
 	echo 'DEBUG: ****   New valid model file was found in ESS'
 	cp ${DESTINATION_PATH} ${HT_DOCS}/${OBJECT_ID}
         echo 'DEBUG: ****   ESS Model updated ...'
+   else
+	echo 'DEBUG: ****   ESS Model NOT updated ...'
+   fi
 }
 
 noData() {
@@ -50,7 +57,7 @@ checkUpdates() {
 }
 
 while true; do
-    echo "$HZN_DEVICE_ID is pulling ESS ..."
+    echo "DEBUG: ****   $HZN_DEVICE_ID is pulling ESS ..."
     sleep  10
 
     # read in new file from the ESS to a temporary location
