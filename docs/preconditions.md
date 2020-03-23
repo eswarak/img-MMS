@@ -26,3 +26,47 @@ export HZN_EXCHANGE_NODE_AUTH="<choose-any-node-id>:<choose-any-node-token>"
 hzn exchange node create -n $HZN_EXCHANGE_NODE_AUTH
 hzn exchange node confirm
 ```
+
+verify keys
+
+
+6. Create docker image:
+
+```bash
+docker build -t $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION) -f ./Dockerfile.$(ARCH) .
+```
+For example:
+
+```bash
+docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
+```
+
+7. Publish Edge service:
+
+```bash
+hzn exchange service publish -O -f horizon/service.definition.json
+```
+
+8. Add the service policy in the Horizon Exchange:
+
+```bash
+hzn exchange service addpolicy --json-file=horizon/service.policy.json image.demo-mms_1.0.0_amd64
+```
+
+9. Verify the service policy:
+
+```bash
+hzn exchange service listpolicy image.demo-mms_1.0.0_amd64
+```
+
+10. Add the business policy in the Horizon Exchange:
+
+```bash
+hzn exchange business addpolicy --json-file=horizon/bp.policy.json image.demo-mms.policy
+```
+
+11. Verify the business policy:
+
+```bash
+hzn exchange business listpolicy image.demo-mms.policy
+```
