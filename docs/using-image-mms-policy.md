@@ -4,25 +4,57 @@
 
 Make sure you have completed the precondition steps before starting this session. Particularly verifying that service and deployment policies have been configured and are compatible with this node policy.
 
-1. Register your edge node with Horizon to use policy:
-
+Get the required helloworld node and business policy files:
 ```bash
-hzn register --policy=horizon/node.policy.json
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node.policy.json
 ```
 
-2. The edge device will make an agreement with one of the Horizon agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
+- Below is the `node_policy.json` file you obtained earlier:
+
+```json
+{
+  "properties": [
+    {
+       "name": "sensor",
+       "value": "camera"
+      }
+  ],
+  "constraints": [
+	"location == backyard"
+  ]
+}
+```
+
+- It provides values for one `property` (`sensor`), that will effect which services get deployed to this edge node, and states one `constraint` (`location`).
+
+1. Register your Node Policy with this policy
+
+```bash
+hzn register --policy node_policy.json
+```
+
+2. When the registration completes, use the following command to review the Node Policy:
+
+```bash
+hzn policy list
+```
+
+- Notice that in addition to one `property` stated in the node.policy.json file, Horizon has added a few more (openhorizon.cpu, openhorizon.arch, and openhorizon.memory). Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
+
+4. The edge device will make an agreement with one of the Horizon agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
 
 ```bash
 hzn agreement list
 ```
 
-3. After the agreement is made, list the docker container edge service that has been started as a result:
+5. After the agreement is made, list the edge service docker container that has been started as a result:
 
-``` bash
+```bash
 sudo docker ps
 ```
 
-4. See the `image.demo-mms` service output:
+
+6. See the `image.demo-mms` service output:
 
   on **Linux**:
 
@@ -35,32 +67,69 @@ sudo docker ps
   ```bash
   sudo docker logs -f $(sudo docker ps -q --filter name=DEBUG)
   ```
-5. Open Chrome and navigate to HTTP://HOSTNAME:9080 where HOSTNAME=Node Host Name or IP address
+7. Open Chrome and navigate to HTTP://HOSTNAME:9080 where HOSTNAME=Node Host Name or IP address
 
 
-6. Open the Web Console in More Tools \ Developer tools
+8. Open the Web Console in More Tools \ Developer tools
 
 ![MMS Example page](demo.png)
 
-7. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image button to see the Image analysis results
+9. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image button to see the Image analysis results
 
 ![MMS Example console](console1.png)
 
-8. Notice the difference in the model results between the two example pictures, you will observe less precision in pictures with multiple objects. Let's see how to update the ML model running on the edge node using MMS.
+10. Notice the difference in the model results between the two example pictures, you will observe less precision in pictures with multiple objects. Let's see how to update the ML model running on the edge node using MMS.
 
 ![MMS Example console](console1.png)
 
 
-9. Before publishing the new ML model, review the metadata needed to update ML models using MMS publish capabilities
+11. Before publishing the new ML model, get and review the metadata needed to update ML models using MMS publish capabilities
 
-[MMS Object JSON example](/mms/object.json)
-
-10. Publish the `index.js` file as a new MMS object to update the existing ML model with:
 ```bash
-hzn mms object publish -m mms/object.json -f index.js
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/object.json
 ```
 
-11. View the published MMS object:
+- Below is the `object.json` file you obtained in step above:
+
+```json
+{
+  "objectID": "index.js",
+  "objectType": "model",
+  "destinationOrgID": "$HZN_ORG_ID",
+  "destinationPolicy": {
+    "properties": [
+      {
+       "name": "location",
+       "value": "backyard"
+      }
+    ],
+    "constraints": [
+        "sensor == camera"
+     ],
+    "services": [
+       {
+	 "orgID" : "$HZN_ORG_ID",
+         "arch": "$ARCH",
+         "serviceName" : "$SERVICE_NAME",
+         "version": "$SERVICE_VERSION"
+       }
+    ]
+  }, 
+  "expiration": "",
+  "version": "1.0.0",
+  "description": "image demo with tensorflow models",
+  "activationTime": ""
+}
+```
+
+12. Get and publish the `index.js` file as a new MMS object to update the existing ML model with:
+```bash
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/index.js
+
+hzn mms object publish -m object.json -f index.js
+```
+
+13. View the published MMS object:
 ```bash
 hzn mms object list -t model -i index.js -d
 ```
@@ -71,31 +140,31 @@ to **Loading cocoSSD ...**
 
 ![MMS Example console after](console2.png)
 
-12. Next, test with the other image, you will observe better results in images with multiple objects:
+14. Next, test with the other image, you will observe better results in images with multiple objects:
 
 ![MMS Example console after image toggle](console3.png)
 
 
 Optional:
 
-13. Delete the published mms object with:
+15. Delete the published mms object with:
 ```bash
 hzn mms object delete -t model --id index.js
 ```
 
-14. Unregister your edge node, which will also stop the `image.demo-mms` service:
+16. Unregister your edge node, which will also stop the `image.demo-mms` service:
 
 ```bash
 hzn unregister
 ```
 
-15. Remove the business policy:
+17. Remove the business policy:
 
 ```bash
 hzn exchange business removepolicy image.demo-mms.policy
 ```
 
-16. Remove the service policy:
+18. Remove the service policy:
 
 ```bash
 hzn exchange service remove image.demo-mms_1.0.0_amd64
