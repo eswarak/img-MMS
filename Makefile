@@ -19,6 +19,7 @@ PORT_NUM ?=9080
 DOCKER_NAME ?=image.demo-mms
 OBJECT_TYPE ?=model
 OBJECT_ID ?=index.js
+BUSINESS_POLICY_NAME ?=$(SERVICE_NAME).policy 
 
 
 # Configurable parameters passed to serviceTest.sh in "test" target
@@ -52,6 +53,14 @@ test: build
 publish-service:
 	hzn exchange service publish -O -f horizon/service.definition.json
 
+  # Publish the service policy to the Horizon Exchange for the current service
+publish-service-policy:
+	hzn exchange service addpolicy -f horizon/service_policy.json $(SERVICE_NAME)_$(SERVICE_VERSION)_$(ARCH)
+
+  # Publish the business policy to the Horizon Exchange
+publish-business-policy:
+        hzn exchange business  addpolicy -f horizon/business_policy.json $(BUSINESS_POLICY_NAME)
+  
   # Publish the pattern to the Horizon Exchange for the current architecture
 publish-pattern:
 	hzn exchange pattern publish -f horizon/pattern.json

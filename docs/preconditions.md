@@ -152,7 +152,7 @@ eval $(hzn util configconv -f horizon/hzn.json)
 3. Add or replace the service policy in the Horizon Exchange for this Example service:
 
 ```bash
-hzn exchange service addpolicy -f horizon/service_policy.json $SERVICE_NAME_$SERVICE_VERSION_$ARCH
+make publish-service-policy
 ```
 For example:
 ```bash
@@ -230,7 +230,7 @@ optional: eval export $(cat agent-install.cfg)
 3. Publish this Business Policy to the Exchange to deploy the `image.demo-mms` service to the Edge Node (give it a memorable name):
 
 ```bash
-hzn exchange business addpolicy -f horizon/business_policy.json <choose-any-policy-name>
+publish-business-policy:
 ```
 
 For example:
