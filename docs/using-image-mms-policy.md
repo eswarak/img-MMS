@@ -134,7 +134,7 @@ hzn mms object list -t model -i index.js -d
 
 A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from 
 
-**loading MobileNet...**
+**loading mobilenet...**
 
 to 
 
