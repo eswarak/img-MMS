@@ -235,7 +235,7 @@ make publish-business-policy
 
 For example:
 ```bash
-hzn exchange business addpolicy -f horizon/business_policy.json image.demo-mms.policy
+hzn exchange business addpolicy -f horizon/business_policy.json image.demo-mms.bp
 
 ```
 

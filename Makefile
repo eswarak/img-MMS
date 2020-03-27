@@ -19,7 +19,7 @@ PORT_NUM ?=9080
 DOCKER_NAME ?=image.demo-mms
 OBJECT_TYPE ?=model
 OBJECT_ID ?=index.js
-BUSINESS_POLICY_NAME ?=$(SERVICE_NAME).policy 
+BUSINESS_POLICY_NAME ?=$(SERVICE_NAME).bp 
 
 
 # Configurable parameters passed to serviceTest.sh in "test" target
