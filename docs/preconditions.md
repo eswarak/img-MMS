@@ -74,7 +74,8 @@ eval $(hzn util configconv -f horizon/hzn.json)
 ```bash
 make build
 ```
-When using the default values provided in the example [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
+
+For example, when using the default values provided in this demo [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
 
 ```bash
 docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
@@ -242,7 +243,7 @@ hzn exchange business addpolicy -f horizon/business_policy.json image.demo-mms.b
 4. Verify the business policy:
 
 ```bash
-hzn exchange business listpolicy image.demo-mms.policy
+hzn exchange business listpolicy image.demo-mms.bp
 ```
 - The results should look very similar to your original `business_policy.json` file, except that `owner`, `created`, and `lastUpdated` and a few other fields have been added.
 
