@@ -8,7 +8,7 @@ hzn mms --help
 
 A good place to start is with the `hzn mms object new` command, which will genereate an MMS object metadata template as follows. 
 
-```json
+```text
 {
   "objectID": "",            /* Required: A unique identifier of the object. */
   "objectType": "",          /* Required: The type of the object. */
