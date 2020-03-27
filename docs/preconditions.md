@@ -230,7 +230,7 @@ optional: eval export $(cat agent-install.cfg)
 3. Publish this Business Policy to the Exchange to deploy the `image.demo-mms` service to the Edge Node (give it a memorable name):
 
 ```bash
-make publish-business-policy:
+make publish-business-policy
 ```
 
 For example:
