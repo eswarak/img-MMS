@@ -1,12 +1,13 @@
-## <a id=using-image-mms-pattern></a> Using the ML Model MMS Example Edge Service with Deployment Policy
+## <a id=using-image-mms-pattern></a> Using the MMS Example for ML model updates with Deployment Policy
 
 ![MMS Example workflow](MMSExample.png)
 
-Make sure you have completed the precondition steps before starting this session. Particularly verifying that service and deployment policies have been configured and are compatible with this node policy.
+Make sure you have completed the [precondition](https://github.com/jiportilla/img-MMS/blob/master/docs/preconditions.md) steps before starting this section. Particularly verifying that service and deployment policies have been configured and are compatible with this node policy.
 
-Get the required helloworld node and business policy files:
+- Get the required node policy and configuration files:
 ```bash
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node.policy.json
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node_policy.json
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json
 ```
 
 - Below is the `node_policy.json` file you obtained earlier:
@@ -24,10 +25,16 @@ wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node.po
   ]
 }
 ```
+- It provides values for one `property` (`sensor`), that will affect which services get deployed to this edge node, and states one `constraint` (`location`).
 
-- It provides values for one `property` (`sensor`), that will effect which services get deployed to this edge node, and states one `constraint` (`location`).
+Run the following commands to set the environment variables needed by the `object.json` file in your shell:
 
-1. Register your Node Policy with this policy
+```bash
+export ARCH=$(hzn architecture)
+eval $(hzn util configconv -f hzn.json)
+```
+
+1. Register your edge device with this node policy:
 
 ```bash
 hzn register --policy node_policy.json
@@ -39,9 +46,9 @@ hzn register --policy node_policy.json
 hzn policy list
 ```
 
-- Notice that in addition to one `property` stated in the node.policy.json file, Horizon has added a few more (openhorizon.cpu, openhorizon.arch, and openhorizon.memory). Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
+- Notice that in addition to the one `property` stated in the `node_policy.json` file, Horizon has added a few more: `openhorizon.cpu`, `openhorizon.arch`, and `openhorizon.memory`. Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
 
-4. The edge device will make an agreement with one of the Horizon agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
+4. The edge device will make an agreement with one of the IEAM agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
 
 ```bash
 hzn agreement list
@@ -62,28 +69,23 @@ sudo docker ps
   sudo tail -f /var/log/syslog | grep DEBUG
   ```
 
-  on **Mac**:
-
-  ```bash
-  sudo docker logs -f $(sudo docker ps -q --filter name=DEBUG)
-  ```
-7. Open Chrome and navigate to HTTP://HOSTNAME:9080 where HOSTNAME=Node Host Name or IP address
+7. Open Chrome and navigate to `HTTP://HOSTNAME:9080` where `HOSTNAME`=Node Host Name or IP address
 
 
-8. Open the Web Console in More Tools \ Developer tools
+8. Open the Web Console in `More Tools \ Developer tools`
 
-![MMS Example page](demo.png)
+![MMS Example page](demo.png) new image with dog
 
-9. After a few seconds, you will see a message indicating the initial model was load, click on the picture or Toggle image button to see the Image analysis results
+9. After a few seconds, you will see a message indicating the initial model was load, click on the picture or `Toggle image` button to see the Image analysis results
 
-![MMS Example console](console1.png)
+![MMS Example console](console1.png) new image
 
-10. Notice the difference in the model results between the two example pictures, you will observe less precision in pictures with multiple objects. Let's see how to update the ML model running on the edge node using MMS.
+10. Notice the difference in the model results between the two example pictures, you will observe less precision in pictures with multiple objects. Let's see how to update the ML model running on the edge node using the MMS.
 
-![MMS Example console](console1.png)
+![MMS Example console](console1.png) new image
 
 
-11. Before publishing the new ML model, get and review the metadata needed to update ML models using MMS publish capabilities
+11. Before publishing the new ML model, get and review the `metadata` file needed to update ML models using MMS publish capabilities
 
 ```bash
 wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/object.json
@@ -134,13 +136,17 @@ hzn mms object publish -m object.json -f index.js
 hzn mms object list -t model -i index.js -d
 ```
 
-A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from **loading MobileNet...**
+A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from 
 
-to **Loading cocoSSD ...**
+**loading MobileNet...**
+
+to 
+
+**Loading cocoSSD ...**
 
 ![MMS Example console after](console2.png)
 
-14. Next, test with the other image, you will observe better results in images with multiple objects:
+14. Next, test both images, you will observe better results in images with multiple objects:
 
 ![MMS Example console after image toggle](console3.png)
 
@@ -167,6 +173,6 @@ hzn exchange business removepolicy image.demo-mms.policy
 18. Remove the service policy:
 
 ```bash
-hzn exchange service remove image.demo-mms_1.0.0_amd64
+hzn exchange service removepolicy image.demo-mms_1.0.0_amd64
 ```
 

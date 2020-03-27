@@ -1,21 +1,22 @@
-## <a id=preconditions></a> Preconditions for Using the ML Image MMS Example Edge Service
+## <a id=preconditions></a> Preconditions for Using the MMS Example for ML model updates
 
-If you haven't done so already, you must do these steps before proceeding with the ML model mms example:
+If you haven't done so already, you must complete these steps before proceeding with the MMS example for ML model updates
 
-1. Install the Horizon management infrastructure (exchange and agbot).
+1. Install (or gain access to) the IBM Edge Application Manager (IEAM) infrastructure (Exchange and Agbot).
 
-2. Install the Horizon agent on your edge device and configure it to point to your Horizon exchange.
+2. Install the Horizon agent on your edge device and configure it to point to your IEAM Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details.
 
-3. Set your exchange org:
+3. Set your Exchange organization variable:
 
 ```bash
 export HZN_ORG_ID="<your-cluster-name>"
 ```
 
-4. Create a cloud API key that is associated with your Horizon instance, set your exchange user credentials, and verify them:
+4. Create a cloud API key that is associated with your IEAM instance, set your Exchange user credentials, and verify them:
 
 ```bash
 export HZN_EXCHANGE_USER_AUTH="iamapikey:<your-API-key>"
+
 hzn exchange user list
 ```
 
@@ -23,15 +24,64 @@ hzn exchange user list
 
 ```bash
 export HZN_EXCHANGE_NODE_AUTH="<choose-any-node-id>:<choose-any-node-token>"
+
 hzn exchange node create -n $HZN_EXCHANGE_NODE_AUTH
+
 hzn exchange node confirm
 ```
 
-6. verify keys
+6. Create a cryptographic signing key pair. This enables you to sign services when publishing them to the exchange.
+
+```bash
+hzn key create "<companyname>" "<youremailaddress>"
+```
+__Note__: You only need to do this step one time.
+
+7. Create a [Docker Hub](https://hub.docker.com/) ID. This is required because the instructions in this section include publishing your service container image to Docker Hub.
+
+8. Install a few development tools:
+
+	On __linux__
+
+```bash
+sudo apt install -y git jq make
+```
+## Creating this Example Edge Service
+
+1. Get the required files:
+```bash
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/service.definition.json
+```
+
+2. Run the following commands to set the environment variables needed by the `service.definition.json` file in your shell:
+```bash
+export ARCH=$(hzn architecture)
+eval $(hzn util configconv -f hzn.json)
+```
+
+3. Create the docker image:
+
+```bash
+docker build -t $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION) -f ./Dockerfile.$(ARCH) .
+```
+When using the values provided in the example [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
+
+```bash
+docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
+```
+
+3. Publish the Edge service:
+
+```bash
+hzn exchange service publish -O -f service.definition.json
+```
+
+See [preparing to create an edge service](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/developing/service_containers.html) for additional details.
 
 ## Using this Example Edge Service with Deployment Policy
 
-The Horizon Policy mechanism offers an alternative to using Deployment Patterns. Policies provide much finer control over the deployment placement of edge services. It also provides a greater separation of concerns, allowing Edge Nodes owners, Service code developers, and Business owners to each independently articulate their own Policies. There are therefore three types of Horizon Policies:
+The Horizon Policy mechanism offers an alternative to using Deployment Patterns. Policies provide much finer control over the deployment placement of edge services. Policies also provide a greater separation of concerns, allowing Edge Nodes owners, Service code developers, and Business owners to each independently articulate their own Policies. There are three types of Horizon Policies:
 
 1. Node Policy (provided at registration time by the node owner)
 
@@ -43,9 +93,9 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
 
 - As an alternative to specifying a Deployment Pattern when you register your Edge Node, you may register with a Node Policy.
 
-1. Get the required helloworld node and business policy files:
+1. Get the required node policy file:
 ```bash
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node.policy.json
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node_policy.json
 ```
 
 - Below is the `node_policy.json` file you obtained in step one:
@@ -64,30 +114,22 @@ wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node.po
 }
 ```
 
-- It provides values for one `property` (`sensor`), that will effect which services get deployed to this edge node, and states one `constraint` (`location`).
+- It provides values for one `property` (`sensor`), that will affect which service(s) get deployed to this edge node, and states one `constraint` (`location`).
+
+The node registration step will be completed in the next section.
 
 
-7. Create docker image:
-
-```bash
-docker build -t $(DOCKER_IMAGE_BASE)_$(ARCH):$(SERVICE_VERSION) -f ./Dockerfile.$(ARCH) .
-```
-For example:
-
-```bash
-docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
-```
-
-8. Publish Edge service:
-
-```bash
-hzn exchange service publish -O -f horizon/service.definition.json
-```
 ### Service Policy
 
-- Like the other two Policy types, Service Policy contains a set of `properties` and a set of `constraints`. The `properties` of a Service Policy could state characteristics of the Service code that Node Policy authors or Business Policy authors may find relevant. The `constraints` of a Service Policy can be used to restrict where this Service can be run. The Service developer could, for example, assert that this Service requires a particular hardware setup such as CPU/GPU constraints, memory constraints, specific sensors, actuators or other peripheral devices required, etc.
+Like the other two Policy types, Service Policy contains a set of `properties` and a set of `constraints`. The `properties` of a Service Policy could state characteristics of the Service code that Node Policy authors or Business Policy authors may find relevant. The `constraints` of a Service Policy can be used to restrict where this Service can be run. The Service developer could, for example, assert that this Service requires a particular hardware setup such as CPU/GPU constraints, memory constraints, specific sensors, actuators or other peripheral devices required, etc.
 
-- Below is the `service_policy.json` file the service developer attached to `image.demo-mms` when it was published:
+1. Get the required service policy file:
+```bash
+wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/service_policy.json
+
+```
+
+Below is the `service policy` file you just retrieved in the step above:
 
 ```json
 {
@@ -99,9 +141,26 @@ hzn exchange service publish -O -f horizon/service.definition.json
 }
 ```
 
-- Note this simple Service Policy doesn't provide any `properties`, but it does have a `constraint`. This example `constraint` is one that a Service developer might add, stating that their Service must only run on sensors named `camera`. If you recall the Node Policy we used above, the sensor `property` was set to `camera`, so this Service should be compatible with our Edge Node.
+- Note this simple Service Policy does not provide any `properties`, but it does have a `constraint`. This example `constraint` is one that a Service developer might add, stating that their Service must only run on sensors named `camera`. If you recall the Node Policy we used above, the sensor `property` was set to `camera`, so this Service should be compatible with our Edge Node.
 
-1. View the pubished service policy attached to `image.demo-mms`:
+2. If needed, run the following commands to set the environment variables needed by the `service_policy.json` file in your shell:
+```bash
+export ARCH=$(hzn architecture)
+eval $(hzn util configconv -f hzn.json)
+```
+
+3. Add or replace the service policy in the Horizon Exchange for this Example service:
+
+```bash
+hzn exchange service addpolicy -f service_policy.json $SERVICE_NAME_$SERVICE_VERSION_$ARCH
+```
+For example:
+```bash
+hzn exchange service addpolicy -f service_policy.json image.demo-mms_1.0.0_amd64
+
+```
+
+4. View the pubished service policy attached to `image.demo-mms` edge service:
 
 ```bash
 hzn exchange service listpolicy image.demo-mms_1.0.0_amd64
@@ -114,15 +173,14 @@ hzn exchange service listpolicy image.demo-mms_1.0.0_amd64
 
 ### Business Policy
 
-- Business Policy (sometimes called Deployment Policy) is what ties together Edge Nodes, Published Services, and the Policies defined for each of those, making it roughly analogous to the Deployment Patterns you have previously worked with.
+Business Policy (sometimes called Deployment Policy) is what ties together Edge Nodes, Published Services, and the Policies defined for each of those, making it roughly analogous to the Deployment Patterns you have previously worked with.
 
-- Business Policy, like the other two Policy types, contains a set of `properties` and a set of `constraints`, but it contains other things as well. For example, it explicitly identifies the Service it will cause to be deployed onto Edge Nodes if negotiation is successful, in addition to configuration variable values, performing the equivalent function to the `-f horizon/userinput.json` clause of a Deployment Pattern `hzn register ...` command. The Business Policy approach for configuration values is more powerful because this operation can be performed centrally (no need to connect directly to the Edge Node).
+Business Policy, like the other two Policy types, contains a set of `properties` and a set of `constraints`, but it contains other things as well. For example, it explicitly identifies the Service it will cause to be deployed onto Edge Nodes if negotiation is successful, in addition to configuration variable values, performing the equivalent function to the `-f horizon/userinput.json` clause of a Deployment Pattern `hzn register ...` command. The Business Policy approach for configuration values is more powerful because this operation can be performed centrally (no need to connect directly to the Edge Node).
 
-1. Get the required `image.demo-mms` business policy file and the `hzn.json` file:
+1. Get the required business policy file:
 ```bash
 wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/business_policy.json
 
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json
 ```
 - Below is the `business_policy.json` file you just grabbed in step one:
 
@@ -162,18 +220,19 @@ wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.jso
 }
 ```
 
-- This simple example of a Business Policy provides one `propertity`(`location`), and it does have one `constraint` (`sensor`) that is satisfied by the `property` set in the `node.policy.json` file, so this Business Policy should successfully deploy our Service onto the Edge Node.
+- This simple example of a Business Policy provides one `propertity`(`location`), and it has one `constraint` (`sensor`) that is satisfied by the `property` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
 
 - At the end, the userInput section has the same purpose as the `horizon/userinput.json` files provided for other examples if the given services requires them. In this case the example service defines does not have configuration variables.
 
-2. Run the following commands to set the environment variables needed by the `business_policy.json` file in your shell:
+2. If needed, run the following commands to set the environment variables needed by the `business_policy.json` file in your shell:
 ```bash
 export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f hzn.json)
-eval export $(cat agent-install.cfg)
+
+optional: eval export $(cat agent-install.cfg)
 ```
 
-3. Publish this Business Policy to the Exchange to deploy the `ibm.helloworld` service to the Edge Node (give it a memorable name):
+3. Publish this Business Policy to the Exchange to deploy the `image.demo-mms` service to the Edge Node (give it a memorable name):
 
 ```bash
 hzn exchange business addpolicy -f business_policy.json <choose-any-policy-name>
@@ -181,7 +240,7 @@ hzn exchange business addpolicy -f business_policy.json <choose-any-policy-name>
 
 For example:
 ```bash
-hzn exchange business addpolicy --json-file=business_policy.json image.demo-mms.policy
+hzn exchange business addpolicy -f business_policy.json image.demo-mms.policy
 
 ```
 
