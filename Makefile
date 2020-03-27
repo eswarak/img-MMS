@@ -59,7 +59,7 @@ publish-service-policy:
 
   # Publish the business policy to the Horizon Exchange
 publish-business-policy:
-        hzn exchange business  addpolicy -f horizon/business_policy.json $(BUSINESS_POLICY_NAME)
+	hzn exchange business  addpolicy -f horizon/business_policy.json $(BUSINESS_POLICY_NAME)
   
   # Publish the pattern to the Horizon Exchange for the current architecture
 publish-pattern:
