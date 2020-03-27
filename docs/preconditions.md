@@ -2,9 +2,9 @@
 
 If you haven't done so already, you must complete these steps before proceeding with the MMS example for ML model updates
 
-1. Install (or gain access to) the IBM Edge Application Manager (IEAM) infrastructure (Exchange and Agbot).
+1. Install (or gain access to) the IBM Edge Application Manager (IEAM) infrastructure (Horizon Exchange and Agbot).
 
-2. Install the Horizon agent on your edge device and configure it to point to your IEAM Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details.
+2. Install the Horizon agent on your edge device and configure it to point to your Horizon Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details.
 
 3. Set your Exchange organization variable:
 
@@ -12,7 +12,7 @@ If you haven't done so already, you must complete these steps before proceeding 
 export HZN_ORG_ID="<your-cluster-name>"
 ```
 
-4. Create a cloud API key that is associated with your IEAM instance, set your Exchange user credentials, and verify them:
+4. Create a cloud API key that is associated with your Horizon instance, set your Exchange user credentials, and verify them:
 
 ```bash
 export HZN_EXCHANGE_USER_AUTH="iamapikey:<your-API-key>"
@@ -80,7 +80,7 @@ When using the default values provided in the example [hnz.json](https://raw.git
 docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
 ```
 
-3. You are now ready to publish your edge service, so that it can be deployed to real edge nodes. Instruct IEAM to push your docker image to your registry and publish your service in the IEAM Exchange:
+3. You are now ready to publish your edge service, so that it can be deployed to real edge nodes. Instruct Horizon to push your docker image to your registry and publish your service in the Horizon Exchange:
 
 ```bash
 hzn exchange service publish -f horizon/service.definition.json
@@ -149,7 +149,7 @@ export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 ```
 
-3. Add or replace the service policy in the IEAM Exchange for this Example service:
+3. Add or replace the service policy in the Horizon Exchange for this Example service:
 
 ```bash
 hzn exchange service addpolicy -f horizon/service_policy.json $SERVICE_NAME_$SERVICE_VERSION_$ARCH
