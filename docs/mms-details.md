@@ -65,3 +65,17 @@ The `hzn mms object list -t <my-type>` can be used to list all the MMS objects o
 To delete a specific object, of type `<my-type>` with ID `<my-id>` you can use, `hzn mms object delete -t <my-type> -i <my-id>`.
 
 To view the current MMS status, use, `hzn mms status`.
+
+## Additional MMS Information
+
+You can browse the [full MMS REST API](https://petstore.swagger.io/?url=https://raw.githubusercontent.com/open-horizon/edge-sync-service/master/swagger.json) .
+
+The ESS REST API (the APIs that an edge service uses) is a small subset of that. The most commonly used ESS REST APIs are:
+
+- `GET /api/v1/objects/{objectType}` - Get metadata for objects of the specified type that have changed, but not yet been acknowledged by this edge service. (There is an optional URL parameter `?received=true` that will cause it to return all objects of this type, regardless of whether they've been acknowledged or not, but this is rarely needed.)
+- `GET /api/v1/objects/{objectType}/{objectID}` - Get an object's metadata
+- `PUT /api/v1/objects/{objectType}/{objectID}` - Create the metadata (specified in the body) for a new (or updated) object that this service is sending to MMS
+- `GET /api/v1/objects/{objectType}/{objectID}/data` - Get the file associated with this object
+- `PUT /api/v1/objects/{objectType}/{objectID}/data` - Send this file (specified in the body) to MMS
+- `PUT /api/v1/objects/{objectType}/{objectID}/deleted` - Confirm that this service has seen that the object has been deleted
+- `PUT /api/v1/objects/{objectType}/{objectID}/received` - Confirm that this service has seen that the object has been changed

@@ -2,13 +2,7 @@
 
 Make sure you have completed the [precondition](https://github.com/jiportilla/img-MMS/blob/master/docs/preconditions.md) steps before starting this section. Particularly verifying that service and deployment policies have been configured and are compatible with this node policy.
 
-- Get the required node policy and configuration files:
-```bash
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/node_policy.json
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json
-```
-
-- Below is the `node_policy.json` file you obtained earlier:
+- Below is the `horizon/node_policy.json` file you reviewed earlier:
 
 ```json
 {
@@ -25,17 +19,18 @@ wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.jso
 ```
 - It provides values for one `property` (`sensor`), that will affect which services get deployed to this edge node, and states one `constraint` (`location`).
 
-Run the following commands to set the environment variables needed by the `object.json` file in your shell:
+If needed, run the following commands to set the environment variables needed by the `object.json` file in your shell:
 
 ```bash
+cd ~/img-MMS/
 export ARCH=$(hzn architecture)
-eval $(hzn util configconv -f hzn.json)
+eval $(hzn util configconv -f horizon/hzn.json)
 ```
 
 1. Register your edge device with this node policy:
 
 ```bash
-hzn register --policy node_policy.json
+hzn register --policy horizon/node_policy.json
 ```
 
 2. When the registration completes, use the following command to review the Node Policy:
@@ -81,13 +76,10 @@ sudo docker ps
 ![MMS Example console](mobilenet.png)
 
 
-11. Before publishing the new ML model, get and review the `metadata` file needed to update ML models using MMS publish capabilities
+11. Before publishing the new ML model,  review the `metadata` file provided to update ML models using MMS publish capabilities
 
-```bash
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/object.json
-```
 
-- Below is the `object.json` file you obtained in step above:
+- Below is the `mms/object.json` file provided in this example:
 
 ```json
 {
@@ -120,11 +112,9 @@ wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/object.json
 }
 ```
 
-12. Get and publish the `index.js` file as a new MMS object to update the existing ML model with:
+12. Publish the `mms/index.js` file as a new MMS object to update the existing ML model with:
 ```bash
-wget https://raw.githubusercontent.com/jiportilla/img-MMS/master/mms/index.js
-
-hzn mms object publish -m object.json -f index.js
+hzn mms object publish -m mms/object.json -f mms/index.js
 ```
 
 13. View the published MMS object:
@@ -170,4 +160,3 @@ hzn exchange business removepolicy image.demo-mms.policy
 ```bash
 hzn exchange service removepolicy image.demo-mms_1.0.0_amd64
 ```
-
