@@ -8,7 +8,7 @@ This is a simple example of using and updating a Horizon ML edge service.
 - [Preconditions for Using the ML MMS Example Edge Service](docs/preconditions.md)
 - [Using the ML MMS Example with deployment policy](docs/using-image-mms-policy.md)
 - [More MMS Details](docs/mms-details.md)
-- [Creating Your Own Example with MMS Edge Service](docs/CreateService.md)
+
 
 ## <a id=introduction></a> Introduction
 
