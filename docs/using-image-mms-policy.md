@@ -152,7 +152,7 @@ hzn unregister
 17. Remove the business policy:
 
 ```bash
-hzn exchange business removepolicy image.demo-mms.policy
+hzn exchange business removepolicy image.demo-mms.bp
 ```
 
 18. Remove the service policy:
