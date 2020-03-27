@@ -1,7 +1,5 @@
 ## <a id=using-image-mms-pattern></a> Using the MMS Example for ML model updates with Deployment Policy
 
-![MMS Example workflow](MMSdemoflow.png)
-
 Make sure you have completed the [precondition](https://github.com/jiportilla/img-MMS/blob/master/docs/preconditions.md) steps before starting this section. Particularly verifying that service and deployment policies have been configured and are compatible with this node policy.
 
 - Get the required node policy and configuration files:
