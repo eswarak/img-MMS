@@ -72,7 +72,7 @@ eval $(hzn util configconv -f horizon/hzn.json)
 3. Build the docker image:
 
 ```bash
-docker build -t $DOCKER_IMAGE_BASE_$ARCH:$SERVICE_VERSION -f ./Dockerfile.$ARCH .
+make build
 ```
 When using the default values provided in the example [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
 
