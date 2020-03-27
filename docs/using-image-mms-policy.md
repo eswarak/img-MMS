@@ -140,7 +140,7 @@ Optional:
 
 15. Delete the published mms object with:
 ```bash
-hzn mms object delete -t model -id index.js
+hzn mms object delete -t model --id index.js
 ```
 
 16. Unregister your edge node, which will also stop the `image.demo-mms` service:
