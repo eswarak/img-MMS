@@ -74,15 +74,13 @@ sudo docker ps
 
 8. Open the Web Console in `More Tools \ Developer tools`
 
-![MMS Example page](demo.png) new image with dog
+![MMS Example page](tools.png)
 
 9. After a few seconds, you will see a message indicating the initial model was load, click on the picture or `Toggle image` button to see the Image analysis results
 
-![MMS Example console](console1.png) new image
-
 10. Notice the difference in the model results between the two example pictures, you will observe less precision in pictures with multiple objects. Let's see how to update the ML model running on the edge node using the MMS.
 
-![MMS Example console](console1.png) new image
+![MMS Example console](mobilenet.png)
 
 
 11. Before publishing the new ML model, get and review the `metadata` file needed to update ML models using MMS publish capabilities
@@ -144,11 +142,10 @@ to
 
 **Loading cocoSSD ...**
 
-![MMS Example console after](console2.png)
 
 14. Next, test both images, you will observe better results in images with multiple objects:
 
-![MMS Example console after image toggle](console3.png)
+![MMS Example console after](cocoSSD.png)
 
 
 Optional:

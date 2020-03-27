@@ -85,7 +85,7 @@ register-pattern:
 	hzn register -p pattern-image-tf-mms-amd64
 
 register-policy:
-	hzn register --policy=horizon/node.policy.json
+	hzn register --policy=horizon/node_policy.json
 
   # unregiser node
 unregister:
