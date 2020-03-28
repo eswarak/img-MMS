@@ -249,5 +249,5 @@ hzn exchange business listpolicy image.demo-mms.bp
 
 You are now ready to register your node with policy and continue this example.
 
-- [Using the ML MMS Example with deployment policy](docs/using-image-mms-policy.md)
+- [Using the ML MMS Example with deployment policy](using-image-mms-policy.md)
 

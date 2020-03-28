@@ -161,7 +161,7 @@ hzn exchange business removepolicy image.demo-mms.bp
 hzn exchange service removepolicy image.demo-mms_1.0.0_amd64
 ```
 See more details at:
-[More MMS Details](docs/mms-details.md)
+[More MMS Details](mms-details.md)
 
 See more examples at: 
 [Horizon Examples](https://github.com/open-horizon/examples/)
