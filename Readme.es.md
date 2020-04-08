@@ -6,7 +6,7 @@ Este es un ejemplo simple de uso y actualización de un servicio cognitivo de Ed
 
 - [Introducción al sistema de gestión de modelos](#introduccion)
 - [Condiciones previas para utilizar el ejemplo del servicio cognitivo Edge con MM](docs/preconditions.md)
-- [Uso del ejemplo cognitivo con MMS con polízas de implementación](docs/using-image-mms-policy.md)
+- [Uso del ejemplo cognitivo con MMS con pólizas de implementación](docs/using-image-mms-policy.md)
 - [Más detalles de MMS](docs/mms-details.md)
 
 ## <a id=introduccion> </a> Introducción
