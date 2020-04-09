@@ -5,7 +5,7 @@ Este ejemplo le ayuda a aprender cómo desarrollar un servicio de IBM Edge Appli
 Este es un ejemplo simple de uso y actualización de un servicio cognitivo de Edge.
 
 - [Introducción al sistema de gestión de modelos](#introduccion)
-- [Condiciones previas para utilizar el ejemplo del servicio cognitivo Edge con MM](docs/preconditions.md)
+- [Condiciones previas para utilizar el ejemplo del servicio cognitivo Edge con MMS](docs/preconditions.md)
 - [Uso del ejemplo cognitivo con MMS con pólizas de implementación](docs/using-image-mms-policy.md)
 - [Más detalles de MMS](docs/mms-details.md)
 
