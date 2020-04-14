@@ -3,12 +3,7 @@
   "objectType": "model",
   "destinationOrgID": "$HZN_ORG_ID",
   "destinationPolicy": {
-    "properties": [
-      {
-       "name": "location",
-       "value": "backyard"
-      }
-    ],
+    "properties": [],
     "constraints": [
         "location == backyard"
      ],
