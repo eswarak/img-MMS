@@ -140,7 +140,7 @@ Optional:
 
 15. Delete the published mms object with:
 ```bash
-hzn mms object delete -t model -id index.js
+hzn mms object delete -t model --id index.js
 ```
 
 16. Unregister your edge node, which will also stop the `image.demo-mms` service:
@@ -152,7 +152,7 @@ hzn unregister
 17. Remove the business policy:
 
 ```bash
-hzn exchange business removepolicy image.demo-mms.policy
+hzn exchange business removepolicy image.demo-mms.bp
 ```
 
 18. Remove the service policy:
@@ -160,3 +160,9 @@ hzn exchange business removepolicy image.demo-mms.policy
 ```bash
 hzn exchange service removepolicy image.demo-mms_1.0.0_amd64
 ```
+See more details at:
+[More MMS Details](mms-details.md)
+
+See more examples at: 
+[Horizon Examples](https://github.com/open-horizon/examples/)
+

@@ -74,7 +74,8 @@ eval $(hzn util configconv -f horizon/hzn.json)
 ```bash
 make build
 ```
-When using the default values provided in the example [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
+
+For example, when using the default values provided in this demo [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
 
 ```bash
 docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
@@ -110,17 +111,19 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
 {
   "properties": [
     {
-       "name": "sensor",
-       "value": "camera"
-      }
+      "name": "sensor",
+      "value": "camera"
+    },
+    {
+      "name": "location",
+      "value": "storage"
+    }
   ],
-  "constraints": [
-	"location == backyard"
-  ]
+  "constraints": []
 }
 ```
 
-- It provides values for one `property` (`sensor`), that will affect which service(s) get deployed to this edge node, and states one `constraint` (`location`).
+- It provides values for two `properties` (`sensor` and `location`), that will affect which service(s) get deployed to this edge node, and states no `constraints` .
 
 The node registration step will be completed in the next section.
 
@@ -149,7 +152,7 @@ export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 ```
 
-3. Add or replace the service policy in the Horizon Exchange for this Example service:
+3. Optionally, add or replace the service policy in the Horizon Exchange for this Example service:
 
 ```bash
 make publish-service-policy
@@ -194,12 +197,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
       }
     ]
   },
-  "properties": [
-    {
-       "name": "location",
-       "value": "backyard"
-      }
-  ],
+  "properties": [],
   "constraints": [
         "sensor == camera"
   ],
@@ -215,7 +213,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
 }
 ```
 
-- This simple example of a Business Policy provides one `propertity`(`location`), and it has one `constraint` (`sensor`) that is satisfied by the `property` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
+- This simple example of a Business Policy provides one `constraint` (`sensor`) that is satisfied by one of the `properties` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
 
 - At the end, the userInput section has the same purpose as the `horizon/userinput.json` files provided for other examples if the given services requires them. In this case the example service defines does not have configuration variables.
 
@@ -242,10 +240,11 @@ hzn exchange business addpolicy -f horizon/business_policy.json image.demo-mms.b
 4. Verify the business policy:
 
 ```bash
-hzn exchange business listpolicy image.demo-mms.policy
+hzn exchange business listpolicy image.demo-mms.bp
 ```
 - The results should look very similar to your original `business_policy.json` file, except that `owner`, `created`, and `lastUpdated` and a few other fields have been added.
 
 You are now ready to register your node with policy and continue this example.
 
+- [Using the ML MMS Example with deployment policy](using-image-mms-policy.md)
 
