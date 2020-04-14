@@ -8,16 +8,18 @@ Make sure you have completed the [precondition](https://github.com/jiportilla/im
 {
   "properties": [
     {
-       "name": "sensor",
-       "value": "camera"
-      }
+      "name": "sensor",
+      "value": "camera"
+    },
+    {
+      "name": "location",
+      "value": "storage"
+    }
   ],
-  "constraints": [
-	"location == backyard"
-  ]
+  "constraints": []
 }
 ```
-- It provides values for one `property` (`sensor`), that will affect which services get deployed to this edge node, and states one `constraint` (`location`).
+- It provides values for two `properties` (`sensor` and 'location'), that will affect which services get deployed to this edge node, and states no `constraints`.
 
 If needed, run the following commands to set the environment variables needed by the `object.json` file in your shell:
 
@@ -39,7 +41,7 @@ hzn register --policy horizon/node_policy.json
 hzn policy list
 ```
 
-- Notice that in addition to the one `property` stated in the `node_policy.json` file, Horizon has added a few more: `openhorizon.cpu`, `openhorizon.arch`, and `openhorizon.memory`. Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
+- Notice that in addition to the two `properties` stated in the `node_policy.json` file, Horizon has added a few more: `openhorizon.cpu`, `openhorizon.arch`, and `openhorizon.memory`. Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
 
 4. The edge device will make an agreement with one of the IEAM agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
 
@@ -87,14 +89,9 @@ sudo docker ps
   "objectType": "model",
   "destinationOrgID": "$HZN_ORG_ID",
   "destinationPolicy": {
-    "properties": [
-      {
-       "name": "location",
-       "value": "backyard"
-      }
-    ],
+    "properties": [],
     "constraints": [
-        "sensor == camera"
+        "location == backyard"
      ],
     "services": [
        {
