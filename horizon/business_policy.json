@@ -12,14 +12,9 @@
       }
     ]
   },
-  "properties": [
-    {
-       "name": "location",
-       "value": "backyard"
-      }
-  ],
+  "properties": [],
   "constraints": [
-        "sensor == camera"
+        "location == backyard"
   ],
   "userInput": [
     {
