@@ -111,17 +111,19 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
 {
   "properties": [
     {
-       "name": "sensor",
-       "value": "camera"
-      }
+      "name": "sensor",
+      "value": "camera"
+    },
+    {
+      "name": "location",
+      "value": "storage"
+    }
   ],
-  "constraints": [
-	"location == backyard"
-  ]
+  "constraints": []
 }
 ```
 
-- It provides values for one `property` (`sensor`), that will affect which service(s) get deployed to this edge node, and states one `constraint` (`location`).
+- It provides values for two `properties` (`sensor` and `location`), that will affect which service(s) get deployed to this edge node, and states no `constraints` .
 
 The node registration step will be completed in the next section.
 
@@ -150,7 +152,7 @@ export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 ```
 
-3. Add or replace the service policy in the Horizon Exchange for this Example service:
+3. Optionally, add or replace the service policy in the Horizon Exchange for this Example service:
 
 ```bash
 make publish-service-policy
@@ -195,12 +197,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
       }
     ]
   },
-  "properties": [
-    {
-       "name": "location",
-       "value": "backyard"
-      }
-  ],
+  "properties": [],
   "constraints": [
         "sensor == camera"
   ],
@@ -216,7 +213,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
 }
 ```
 
-- This simple example of a Business Policy provides one `propertity`(`location`), and it has one `constraint` (`sensor`) that is satisfied by the `property` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
+- This simple example of a Business Policy provides one `constraint` (`sensor`) that is satisfied by one of the `properties` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
 
 - At the end, the userInput section has the same purpose as the `horizon/userinput.json` files provided for other examples if the given services requires them. In this case the example service defines does not have configuration variables.
 
