@@ -10,7 +10,7 @@
       }
     ],
     "constraints": [
-        "sensor == camera"
+        "location == backyard"
      ],
     "services": [
        {
