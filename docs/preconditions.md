@@ -199,7 +199,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
   },
   "properties": [],
   "constraints": [
-        "sensor == camera"
+        "location == storage"
   ],
   "userInput": [
     {
@@ -213,7 +213,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
 }
 ```
 
-- This simple example of a Business Policy provides one `constraint` (`sensor`) that is satisfied by one of the `properties` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
+- This simple example of a Business Policy provides one `constraint` (`location`) that is satisfied by one of the `properties` set in the `node_policy.json` file, so this Business Policy should successfully deploy our Example Service onto the Edge Node.
 
 - At the end, the userInput section has the same purpose as the `horizon/userinput.json` files provided for other examples if the given services requires them. In this case the example service defines does not have configuration variables.
 
