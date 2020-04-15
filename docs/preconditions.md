@@ -199,7 +199,7 @@ Business Policy, like the other two Policy types, contains a set of `properties`
   },
   "properties": [],
   "constraints": [
-        "location == storage"
+        "location == backyard"
   ],
   "userInput": [
     {
