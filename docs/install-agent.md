@@ -253,7 +253,7 @@ Horizon node unregistered. You may now run 'hzn register ...' again, if desired.
 
 <table align="center">
 <tr>
-  <td align="left" width="9999"><a href="README.md">Previous - Introduction </a> </td>
+  <td align="left" width="9999"><a href="../README.md">Previous - Introduction </a> </td>
   <td align="right" width="9999"><a href="preconditions.md">Next - Preconditions ... </a> </td>
 </tr>
 </table>
