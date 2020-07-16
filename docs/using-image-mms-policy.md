@@ -183,8 +183,8 @@ See more examples at:
 
 <table align="center">
 <tr>
-  <td align="left" width="9999"><a href="docs/preconditions.md">Previous - Preconditions ... </a> </td>
-  <td align="right" width="9999"><a href="README.md">Beginning </a> </td>
+  <td align="left" width="9999"><a href="preconditions.md">Previous - Preconditions ... </a> </td>
+  <td align="right" width="9999"><a href="../README.md">Beginning </a> </td>
 </tr>
 </table>
 
