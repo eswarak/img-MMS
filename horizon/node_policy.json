@@ -7,6 +7,10 @@
     {
       "name": "location",
       "value": "backyard"
+    },
+    {
+      "name": "device",
+      "value": "%HOSTNAME%"
     }
   ],
   "constraints": []

@@ -6,38 +6,7 @@ If you haven't done so already, you must complete these steps before proceeding 
 
 2. Install the Horizon agent on your edge device and configure it to point to your Horizon Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details.
 
-3. Set your Exchange organization variable:
-
-```bash
-export HZN_ORG_ID="<your-cluster-name>"
-```
-
-4. Create a cloud API key that is associated with your Horizon instance, set your Exchange user credentials, and verify them:
-
-```bash
-export HZN_EXCHANGE_USER_AUTH="iamapikey:<your-API-key>"
-
-hzn exchange user list
-```
-
-5. Choose an ID and token for your edge node, create it, and verify it:
-
-```bash
-export HZN_EXCHANGE_NODE_AUTH="<choose-any-node-id>:<choose-any-node-token>"
-
-hzn exchange node create -n $HZN_EXCHANGE_NODE_AUTH
-
-hzn exchange node confirm
-```
-
-6. Create a cryptographic signing key pair. This enables you to sign services when publishing them to the exchange.
-
-```bash
-hzn key create "<companyname>" "<youremailaddress>"
-```
-__Note__: You only need to do this step one time.
-
-7. Install Docker and create a [Docker Hub](https://hub.docker.com/) ID. This is required because the instructions in this section include publishing your service container image to Docker Hub.
+3. Install Docker and create a [Docker Hub](https://hub.docker.com/) ID. This is required because the instructions in this section include publishing your service container image to Docker Hub.
 
 - Log in to Docker Hub using your Docker Hub ID:
 ```bash
@@ -45,7 +14,7 @@ export DOCKER_HUB_ID="<dockerhubid>"
 echo "<dockerhubpassword>" | docker login -u $DOCKER_HUB_ID --password-stdin
 ```
 
-8. Install a few development tools:
+4. Install a few development tools:
 
 	On __linux__
 
@@ -58,16 +27,21 @@ sudo apt install -y git jq make
 
 ```bash
 cd ~   # or wherever you want
-git clone https://github.com/jiportilla/img-MMS.git
+git clone https://github.com/eswarak/img-MMS.git
 cd ~/img-MMS/
 ```
 
-2. Set the values in `horizon/hzn/json` to your liking. These variables are used in the service and MMS metadata `object.json` files. They are also used in some of the commands in this procedure. After editing `horizon/hzn.json`, set the variables in your environment:
+2. Replace the values in `horizon/hzn.json`. Replace `%org%` with the value of variable `HZN_ORG_ID`. Similarly, replace the value `%dockerid%` with your docker ID. These variables are used in the service and MMS metadata `object.json` files. They are also used in some of the commands in this procedure. After editing `horizon/hzn.json`, set the variables in your environment:
 
 ```bash
+sed -i "s/\%org\%/$HZN_ORG_ID/g" horizon/hzn.json
+sed -i "s/\%dockerid\%/$DOCKER_HUB_ID/g" horizon/hzn.json
+
 export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
-```
+export DOCKER_IMAGE_BASE="<dockerhubid>"/image.demo-mms
+```  
+**Note**: Replace `"<dockerhubid>"` with your dockerhub ID.  
 
 3. Build the docker image:
 
@@ -155,18 +129,19 @@ eval $(hzn util configconv -f horizon/hzn.json)
 3. Optionally, add or replace the service policy in the Horizon Exchange for this Example service:
 
 ```bash
+sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/service_policy.json
 make publish-service-policy
 ```
 For example:
 ```bash
-hzn exchange service addpolicy -f horizon/service_policy.json image.demo-mms_1.0.0_amd64
+hzn exchange service addpolicy -f horizon/service_policy.json $HOSTNAME-image.demo-mms_1.0.0_amd64
 
 ```
 
 4. View the pubished service policy attached to `image.demo-mms` edge service:
 
 ```bash
-hzn exchange service listpolicy image.demo-mms_1.0.0_amd64
+hzn exchange service listpolicy $HOSTNAME-image.demo-mms_1.0.0_amd64
 ```
 
 - Notice that Horizon has again automatically added some additional `properties` to your Policy. These generated property values can be used in `constraints` in Node Policies and Business Policies.
@@ -199,7 +174,8 @@ Business Policy, like the other two Policy types, contains a set of `properties`
   },
   "properties": [],
   "constraints": [
-        "location == backyard"
+        "location == backyard",
+        "device == %HOSTNAME%"
   ],
   "userInput": [
     {
@@ -222,6 +198,10 @@ Business Policy, like the other two Policy types, contains a set of `properties`
 export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 
+sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/business_policy.json
+
+export BUSINESS_POLICY_NAME=${SERVICE_NAME}.bp
+
 optional: eval export $(cat agent-install.cfg)
 ```
 
@@ -233,18 +213,22 @@ make publish-business-policy
 
 For example:
 ```bash
-hzn exchange business addpolicy -f horizon/business_policy.json image.demo-mms.bp
+hzn exchange business addpolicy -f horizon/business_policy.json $HOSTNAME-image.demo-mms.bp
 
 ```
 
 4. Verify the business policy:
 
 ```bash
-hzn exchange business listpolicy image.demo-mms.bp
+hzn exchange business listpolicy $HOSTNAME-image.demo-mms.bp
 ```
 - The results should look very similar to your original `business_policy.json` file, except that `owner`, `created`, and `lastUpdated` and a few other fields have been added.
 
 You are now ready to register your node with policy and continue this example.
 
-- [Using the ML MMS Example with deployment policy](using-image-mms-policy.md)
-
+<table align="center">
+<tr>
+  <td align="left" width="9999"><a href="docs/install-agent.md">Previous - Install Agent ... </a> </td>
+  <td align="right" width="9999"><a href="docs/using-image-mms-policy.md">Next - Using the MMS Example ... </a> </td>
+</tr>
+</table>

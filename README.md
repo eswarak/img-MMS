@@ -5,6 +5,7 @@ This example helps you learn how to develop an IBM Edge Application Manager serv
 This is a simple example of using and updating a Horizon ML edge service.
 
 - [Introduction to the Horizon Model Management System](#introduction)
+- [Install agent](docs/install-agent.md)
 - [Preconditions for Using the ML MMS Example Edge Service](docs/preconditions.md)
 - [Using the ML MMS Example with deployment policy](docs/using-image-mms-policy.md)
 - [More MMS Details](docs/mms-details.md)
@@ -19,3 +20,9 @@ This document will walk you through the process of using the Model Management Sy
 
 
 See more examples at: [Horizon Examples](https://github.com/open-horizon/examples/)
+<table align="center">
+<tr>
+  <td align="left" width="9999"></td>
+  <td align="right" width="9999"><a href="docs/install-agent.md">Next - Install Agent</a></td>
+</tr>
+</table>

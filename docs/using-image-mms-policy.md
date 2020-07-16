@@ -14,7 +14,11 @@ Make sure you have completed the [precondition](https://github.com/jiportilla/im
     {
       "name": "location",
       "value": "storage"
-    }
+    },
+    {
+      "name": "device",
+      "value": "%HOSTNAME%"
+    }    
   ],
   "constraints": []
 }
@@ -27,6 +31,8 @@ If needed, run the following commands to set the environment variables needed by
 cd ~/img-MMS/
 export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
+
+sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/node_policy.json
 ```
 
 1. Register your edge device with this node policy:
@@ -64,7 +70,18 @@ sudo docker ps
   sudo tail -f /var/log/syslog | grep DEBUG
   ```
 
-7. Open Chrome and navigate to `HTTP://HOSTNAME:9080` where `HOSTNAME`=Node Host Name or IP address
+7. To check the deployment of the policy on the device, you have to get the URL.  
+
+  on **Linux**:
+
+  ```bash
+  export IEAM_URL=%The URL Given provided to you%
+  export EXAMPLEHOST=`echo $IEAM_URL | awk 'BEGIN { FS = "/" } ; {print $3}'| cut -f3-5 -d.`
+  export EXAMPLEPORT=`echo $HOSTNAME | sed "s/dev/40/g"`
+
+  ```
+
+Open Chrome and navigate to `HTTP://HOSTNAME:PORT` where `HOSTNAME`=Node Host Name or IP address of output of `echo $EXAMPLEHOST` and `PORT`=output of `echo $EXAMPLEPORT`
 
 
 8. Open the Web Console in `More Tools \ Developer tools`
@@ -111,12 +128,13 @@ sudo docker ps
 
 12. Publish the `mms/index.js` file as a new MMS object to update the existing ML model with:
 ```bash
+sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" mms/object.json
 hzn mms object publish -m mms/object.json -f mms/index.js
 ```
 
 13. View the published MMS object:
 ```bash
-hzn mms object list -t model -i index.js -d
+hzn mms object list -t model -i $HOSTNAME-index.js -d
 ```
 
 A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from 
@@ -137,7 +155,7 @@ Optional:
 
 15. Delete the published mms object with:
 ```bash
-hzn mms object delete -t model --id index.js
+hzn mms object delete -t model --id $HOSTNAME-index.js
 ```
 
 16. Unregister your edge node, which will also stop the `image.demo-mms` service:
@@ -149,17 +167,24 @@ hzn unregister
 17. Remove the business policy:
 
 ```bash
-hzn exchange business removepolicy image.demo-mms.bp
+hzn exchange business removepolicy $HOSTNAME-image.demo-mms.bp
 ```
 
 18. Remove the service policy:
 
 ```bash
-hzn exchange service removepolicy image.demo-mms_1.0.0_amd64
+hzn exchange service removepolicy $HOSTNAME-image.demo-mms_1.0.0_amd64
 ```
 See more details at:
 [More MMS Details](mms-details.md)
 
 See more examples at: 
 [Horizon Examples](https://github.com/open-horizon/examples/)
+
+<table align="center">
+<tr>
+  <td align="left" width="9999"><a href="docs/preconditions.md">Previous - Preconditions ... </a> </td>
+  <td align="right" width="9999"><a href="README.md">Beginning </a> </td>
+</tr>
+</table>
 

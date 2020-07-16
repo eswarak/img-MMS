@@ -1,8 +1,8 @@
 {
-    "HZN_ORG_ID": "devcluster",
+    "HZN_ORG_ID": "%org%",
     "MetadataVars": {
-        "DOCKER_IMAGE_BASE": "iportilla/image.demo-mms",
-        "SERVICE_NAME": "image.demo-mms",
+        "DOCKER_IMAGE_BASE": "%dockerid%/image.demo-mms",
+        "SERVICE_NAME": "$HOSTNAME-image.demo-mms",
         "SERVICE_VERSION": "1.0.0"
     }
 }

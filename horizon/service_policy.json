@@ -2,6 +2,7 @@
   "properties": [
   ],
   "constraints": [
-       "sensor == camera"
+       "sensor == camera",
+       "device == %HOSTNAME%"
   ]
 }

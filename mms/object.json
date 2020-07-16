@@ -1,5 +1,5 @@
 {
-  "objectID": "index.js",
+  "objectID": "%HOSTNAME%-index.js",
   "objectType": "model",
   "destinationOrgID": "$HZN_ORG_ID",
   "destinationPolicy": {

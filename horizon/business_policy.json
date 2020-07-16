@@ -14,7 +14,8 @@
   },
   "properties": [],
   "constraints": [
-        "location == backyard"
+        "location == backyard",
+        "device == %HOSTNAME%"
   ],
   "userInput": [
     {
