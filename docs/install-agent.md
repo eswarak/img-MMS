@@ -45,8 +45,31 @@ Check the environment variables.
 ```
 env | grep -i hzn
 HZN_EXCHANGE_USER_AUTH=iamapikey:iMh1DFbf-x5CVbRxiA50kzxCn8h0OIDTz9-Rv_lp0-Vpwqxx
-HZN_ORG_ID=bluegreen
+HZN_ORG_ID=green
 ```  
+## Create API key for your user
+As, the tutorial env is shared, you have to create api key to register the device so that you can manage the device.   
+1. Log in to the cli using your credentials.  
+  ```bash
+  cloudctl login -a <IEAM URL> -u <IEAM userid>
+  ```  
+  **Note**: IEAM URL and user credentials are provided to you. For ex:  
+  ```bash
+  cloudctl login -a https://icp-console.apps.mydomain.com -u myuser -p mypassword -n kube-public
+  ```  
+  Create the api key.  
+  ```bash
+  cloudctl iam api-key-create  <userid>-edge-node-apikey -d <userid>-api-key
+  ```  
+  The output will be similar to  
+  ```bash
+  Name          myuser-edge-node-apikey   
+  Description   myuser-api-key   
+  Bound To      crn:v1:icp:private:iam-identity:::IBMid:user:myuser   
+  Created At    2020-07-16T17:47+0000   
+  API Key       AIh2VqREBZeJsWIiwQzjEtXRNxJ94g0MZjP42E4_xyzA
+  ```  
+  Make a note of the **API Key** as you need this for the subsequent steps. Update `/etc/environment` to reflect this. Using the editor of your choice `vi` / `nano` / `vim`, edit `/etc/environment`.  
 
 ## Install the agent
 
@@ -231,7 +254,7 @@ Horizon node unregistered. You may now run 'hzn register ...' again, if desired.
 <table align="center">
 <tr>
   <td align="left" width="9999"><a href="README.md">Previous - Introduction </a> </td>
-  <td align="right" width="9999"><a href="docs/preconditions.md">Next - Preconditions ... </a> </td>
+  <td align="right" width="9999"><a href="preconditions.md">Next - Preconditions ... </a> </td>
 </tr>
 </table>
 
