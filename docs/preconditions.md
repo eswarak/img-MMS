@@ -16,7 +16,7 @@ echo "<dockerhubpassword>" | docker login -u $DOCKER_HUB_ID --password-stdin
 
 4. Install a few development tools:
 
-	On __linux__
+	On __linux__, if required  
 
 ```bash
 sudo apt install -y git jq make
@@ -39,9 +39,14 @@ sed -i "s/\%dockerid\%/$DOCKER_HUB_ID/g" horizon/hzn.json
 
 export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
-export DOCKER_IMAGE_BASE="<dockerhubid>"/image.demo-mms
+
 ```  
 **Note**: Replace `"<dockerhubid>"` with your dockerhub ID.  
+Validate the environment variables that were set.  
+```bash
+echo $SERVICE_NAME
+echo $DOCKER_IMAGE_BASE
+```
 
 3. Build the docker image:
 
@@ -61,6 +66,7 @@ docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
 hzn exchange service publish -f horizon/service.definition.json
 hzn exchange service list
 ```
+You will the service with name `$HOSTNAME-mage.demo-mms_1.0.0_amd64"` listed.  
 
 See [preparing to create an edge service](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/developing/service_containers.html) for additional details.
 
@@ -228,7 +234,7 @@ You are now ready to register your node with policy and continue this example.
 
 <table align="center">
 <tr>
-  <td align="left" width="9999"><a href="docs/install-agent.md">Previous - Install Agent ... </a> </td>
-  <td align="right" width="9999"><a href="docs/using-image-mms-policy.md">Next - Using the MMS Example ... </a> </td>
+  <td align="left" width="9999"><a href="install-agent.md">Previous - Install Agent ... </a> </td>
+  <td align="right" width="9999"><a href="using-image-mms-policy.md">Next - Using the MMS Example ... </a> </td>
 </tr>
 </table>

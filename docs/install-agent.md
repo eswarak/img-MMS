@@ -12,12 +12,12 @@ In this lab environment, a virtual device ( ubuntu 18.04 ) is deployed and ready
 ## Validate the binaries
 
 Few parameters are required to run the lab. They will be provided. The parameters are:  
-- username for ssh
-- password for ssh
-- target host to ssh along with the port. 
-- IBM Edge Application Manager( IEAM ) Console URL
-- IEAM console userid
-- IEAM console password  
+- **username for ssh**
+- **password for ssh**
+- **target host to ssh along with the port** 
+- **IBM Edge Application Manager( IEAM ) Console URL**
+- **IEAM console userid**
+- **IEAM console password**  
 
 Using the above, ssh to the edge device  
 ```
@@ -69,7 +69,17 @@ As, the tutorial env is shared, you have to create api key to register the devic
   Created At    2020-07-16T17:47+0000   
   API Key       AIh2VqREBZeJsWIiwQzjEtXRNxJ94g0MZjP42E4_xyzA
   ```  
-  Make a note of the **API Key** as you need this for the subsequent steps. Update `/etc/environment` to reflect this. Using the editor of your choice `vi` / `nano` / `vim`, edit `/etc/environment`.  
+  Make a note of the **API Key** as you need this for the subsequent steps. Update `/etc/environment` to reflect this, using the editor of your choice `vi`/`nano`/`vim`.   
+
+  Ensure that the environment variables reflect the API key that is created.  
+  ```bash
+  source /etc/environment
+  env | grep -i hzn
+
+  HZN_EXCHANGE_USER_AUTH=iamapikey:AIh2VqREBZeJsWIiwQzjEtXRNxJ94g0MZjP42E4_xyzA
+  HZN_ORG_ID=green
+  ```  
+  The *API Key* set in the environment variable should match the *API Key* you created.  
 
 ## Install the agent
 
@@ -238,6 +248,14 @@ Select the device to view the details of the device.
 ![device details](images/ieam-devdetails.png)  
 
 You can validate the properties listed in the device details match the **policy.json** on your device.
+
+## Create service key
+
+To publish or manage service definition. service policy, service patterns, business policy etc., you need a service key.  
+```bash
+hzn key create IBM <your email>
+   - In this IBM is the orgID. 
+``` 
 
 ## Unregister the device
 
