@@ -64,15 +64,11 @@ sudo docker ps
 
 6. See the `image.demo-mms` service output:
 
-  on **Linux**:
-
   ```bash
   sudo tail -f /var/log/syslog | grep DEBUG
   ```
 
 7. To check the deployment of the policy on the device, you have to get the URL.  
-
-  on **Linux**:
 
   ```bash
   export IEAM_URL=%The URL provided to you%

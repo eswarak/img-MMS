@@ -17,6 +17,12 @@ The Horizon Model Management System (MMS) enables you to have independent lifecy
 
 This document will walk you through the process of using the Model Management System to send a ML model file to your edge nodes. It also shows how your nodes can detect the arrival of a new version of the ML model, and then consume the contents of that file.
 
+## Requirements
+
+To run this tutorial you need:  
+1. Docker Hub ID ( Need this to push and pull an image to the docker registry).    
+
+2. You should be able ssh.  
 
 
 See more examples at: [Horizon Examples](https://github.com/open-horizon/examples/)

@@ -54,12 +54,11 @@ echo $DOCKER_IMAGE_BASE
 make build
 ```
 
-For example, when using the default values provided in this demo [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
+Alternatively, when using the default values provided in this demo [hnz.json](https://raw.githubusercontent.com/jiportilla/img-MMS/master/horizon/hzn.json) configuration file:
 
 ```bash
 docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
 ```
-**Note**: You need not run this if ran `make build`
 
 4. You are now ready to publish your edge service, so that it can be deployed to real edge nodes. Instruct Horizon to push your docker image to your registry and publish your service in the Horizon Exchange:
 
@@ -67,7 +66,7 @@ docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
 hzn exchange service publish -f horizon/service.definition.json
 hzn exchange service list
 ```
-You will the service with name `$HOSTNAME-mage.demo-mms_1.0.0_amd64"` listed.  
+You will see the service with name `$HOSTNAME-image.demo-mms_1.0.0_amd64"` listed.  
 
 See [preparing to create an edge service](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/developing/service_containers.html) for additional details.
 
@@ -108,7 +107,7 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
 }
 ```
 
-- It provides values for two `properties` (`sensor` and `location`), that will affect which service(s) get deployed to this edge node, and states no `constraints` .
+- It provides values for two `properties` (`sensor`, `location` and `device`), that will affect which service(s) get deployed to this edge node, and states no `constraints` .
 
 The node registration step will be completed in the next section.
 
@@ -138,18 +137,17 @@ export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 ```
 
-3. Optionally, add or replace the service policy in the Horizon Exchange for this Example service:
+3. Add the service policy in the Horizon Exchange for this Example service:
 
 ```bash
 sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/service_policy.json
 make publish-service-policy
 ```
-For example:
+Alternatively, 
 ```bash
 hzn exchange service addpolicy -f horizon/service_policy.json $HOSTNAME-image.demo-mms_1.0.0_amd64
 
 ```  
-**Note**: You need not run this if ran `make publish-service-policy`
 
 4. View the pubished service policy attached to `image.demo-mms` edge service:
 
@@ -223,12 +221,12 @@ export BUSINESS_POLICY_NAME=${SERVICE_NAME}.bp
 make publish-business-policy
 ```
 
-For example:
+Alternatively:
 ```bash
 hzn exchange business addpolicy -f horizon/business_policy.json $HOSTNAME-image.demo-mms.bp
 
 ```  
-**Note**: You need not run this if ran `make publish-business-policy`
+
 
 4. Verify the business policy:
 
