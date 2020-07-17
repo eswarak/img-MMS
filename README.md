@@ -26,3 +26,5 @@ See more examples at: [Horizon Examples](https://github.com/open-horizon/example
   <td align="right" width="9999"><a href="docs/install-agent.md">Next - Install Agent</a></td>
 </tr>
 </table>
+
+[Adopted from Ivan Portilla's Lab](https://github.com/jiportilla/img-MMS)

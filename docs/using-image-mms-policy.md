@@ -102,7 +102,7 @@ Open Chrome and navigate to `HTTP://HOSTNAME:PORT` where `HOSTNAME`=Node Host Na
 
 ```json
 {
-  "objectID": "index.js",
+  "objectID": "%HOSTNAME%-index.js",
   "objectType": "model",
   "destinationOrgID": "$HZN_ORG_ID",
   "destinationPolicy": {
