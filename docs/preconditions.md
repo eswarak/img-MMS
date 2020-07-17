@@ -11,7 +11,7 @@ If you haven't done so already, you must complete these steps before proceeding 
 - Log in to Docker Hub using your Docker Hub ID:
 ```bash
 export DOCKER_HUB_ID="<dockerhubid>"
-echo "<dockerhubpassword>" | docker login -u $DOCKER_HUB_ID --password-stdin
+docker login -u $DOCKER_HUB_ID
 ```
 
 4. Install a few development tools:
