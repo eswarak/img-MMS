@@ -2,11 +2,11 @@
 
 If you haven't done so already, you must complete these steps before proceeding with the MMS example for ML model updates
 
-1. Install (or gain access to) the IBM Edge Application Manager (IEAM) infrastructure (Horizon Exchange and Agbot).
+1. Install (or gain access to) the IBM Edge Application Manager (IEAM) infrastructure (Horizon Exchange and Agbot). - **This step is completed**.
 
-2. Install the Horizon agent on your edge device and configure it to point to your Horizon Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details.
+2. Install the Horizon agent on your edge device and configure it to point to your Horizon Exchange. See [Preparing an edge device](https://www.ibm.com/support/knowledgecenter/SSFKVV_4.0/devices/installing/adding_devices.html) for details. - **This step is completed**.
 
-3. Install Docker and create a [Docker Hub](https://hub.docker.com/) ID. This is required because the instructions in this section include publishing your service container image to Docker Hub.
+3. You need to use your docker id. This is required to push the image to docker registry.
 
 - Log in to Docker Hub using your Docker Hub ID:
 ```bash
@@ -41,7 +41,7 @@ export ARCH=$(hzn architecture)
 eval $(hzn util configconv -f horizon/hzn.json)
 
 ```  
-**Note**: Replace `"<dockerhubid>"` with your dockerhub ID.  
+
 Validate the environment variables that were set.  
 ```bash
 echo $SERVICE_NAME
@@ -59,8 +59,9 @@ For example, when using the default values provided in this demo [hnz.json](http
 ```bash
 docker build -t iportilla/image.demo-mms_amd64:1.0.0 -f ./Dockerfile.amd64 .
 ```
+**Note**: You need not run this if ran `make build`
 
-3. You are now ready to publish your edge service, so that it can be deployed to real edge nodes. Instruct Horizon to push your docker image to your registry and publish your service in the Horizon Exchange:
+4. You are now ready to publish your edge service, so that it can be deployed to real edge nodes. Instruct Horizon to push your docker image to your registry and publish your service in the Horizon Exchange:
 
 ```bash
 hzn exchange service publish -f horizon/service.definition.json
@@ -98,6 +99,10 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
       "name": "location",
       "value": "storage"
     }
+    {
+      "name": "device",
+      "value": "%HOSTNAME%"
+    }
   ],
   "constraints": []
 }
@@ -119,7 +124,8 @@ Like the other two Policy types, Service Policy contains a set of `properties` a
 {
   "properties": [],
   "constraints": [
-       "sensor == camera"
+       "sensor == camera",
+       "device == %HOSTNAME%"
   ]
 }
 ```
@@ -142,7 +148,8 @@ For example:
 ```bash
 hzn exchange service addpolicy -f horizon/service_policy.json $HOSTNAME-image.demo-mms_1.0.0_amd64
 
-```
+```  
+**Note**: You need not run this if ran `make publish-service-policy`
 
 4. View the pubished service policy attached to `image.demo-mms` edge service:
 
@@ -208,7 +215,6 @@ sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/business_policy.json
 
 export BUSINESS_POLICY_NAME=${SERVICE_NAME}.bp
 
-optional: eval export $(cat agent-install.cfg)
 ```
 
 3. Publish this Business Policy to the Exchange to deploy the `image.demo-mms` service to the Edge Node (give it a memorable name):
@@ -221,7 +227,8 @@ For example:
 ```bash
 hzn exchange business addpolicy -f horizon/business_policy.json $HOSTNAME-image.demo-mms.bp
 
-```
+```  
+**Note**: You need not run this if ran `make publish-business-policy`
 
 4. Verify the business policy:
 

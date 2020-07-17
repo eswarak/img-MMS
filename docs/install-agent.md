@@ -53,13 +53,13 @@ As, the tutorial env is shared, you have to create api key to register the devic
   ```bash
   cloudctl login -a <IEAM URL> -u <IEAM userid>
   ```  
-  **Note**: IEAM URL and user credentials are provided to you. For ex:  
+  **Note**: IEAM URL and user credentials are provided to you. IEAM URl will be similar to `https://icp-console.apps.mydomain.com/edge` and to login endpoint will be `https://icp-console.apps.mydomain.com`. For ex:  
   ```bash
   cloudctl login -a https://icp-console.apps.mydomain.com -u myuser -p mypassword -n kube-public
   ```  
   Create the api key.  
   ```bash
-  cloudctl iam api-key-create  <userid>-edge-node-apikey -d <userid>-api-key
+  cloudctl iam api-key-create  <IEAM userid>-edge-node-apikey -d <IEAM userid>-api-key
   ```  
   The output will be similar to  
   ```bash
@@ -69,7 +69,7 @@ As, the tutorial env is shared, you have to create api key to register the devic
   Created At    2020-07-16T17:47+0000   
   API Key       AIh2VqREBZeJsWIiwQzjEtXRNxJ94g0MZjP42E4_xyzA
   ```  
-  Make a note of the **API Key** as you need this for the subsequent steps. Update `/etc/environment` to reflect this, using the editor of your choice `vi`/`nano`/`vim`.   
+  Make a note value of the **API Key** as you need this for the subsequent steps. Update `/etc/environment` to reflect this, using the editor of your choice `vi`/`nano`/`vim`. In `/etc/environment`, the api key to be replaced will be `iMh1DFbf-x5CVbRxiA50kzxCn8h0OIDTz9-Rv_lp0-Vpwqxx` in the line `HZN_EXCHANGE_USER_AUTH=iamapikey:iMh1DFbf-x5CVbRxiA50kzxCn8h0OIDTz9-Rv_lp0-Vpwqxx`
 
   Ensure that the environment variables reflect the API key that is created.  
   ```bash
@@ -259,7 +259,7 @@ hzn key create IBM <your email>
 
 ## Unregister the device
 
-To continue with rest of the lab, unregister the device. In the **ssh** session, you can unregister teh device with the command `hzn unregister -f`.  
+To continue with rest of the lab, unregister the device. In the **ssh** session, you can unregister the device with the command `hzn unregister -f`.  
 ```
 hzn unregister -f
 

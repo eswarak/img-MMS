@@ -75,7 +75,7 @@ sudo docker ps
   on **Linux**:
 
   ```bash
-  export IEAM_URL=%The URL Given provided to you%
+  export IEAM_URL=%The URL provided to you%
   export EXAMPLEHOST=`echo $IEAM_URL | awk 'BEGIN { FS = "/" } ; {print $3}'| cut -f3-5 -d.`
   export EXAMPLEPORT=`echo $HOSTNAME | sed "s/dev/40/g"`
 
