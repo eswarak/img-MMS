@@ -109,7 +109,7 @@ The Horizon Policy mechanism offers an alternative to using Deployment Patterns.
 
 - It provides values for two `properties` (`sensor`, `location` and `device`), that will affect which service(s) get deployed to this edge node, and states no `constraints` .
 
-The node registration step will be completed in the next section.
+The node registration step will be completed in the later section.
 
 
 ### Service Policy

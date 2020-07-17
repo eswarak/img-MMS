@@ -23,7 +23,7 @@ Make sure you have completed the [precondition](https://github.com/jiportilla/im
   "constraints": []
 }
 ```
-- It provides values for two `properties` (`sensor` and 'location'), that will affect which services get deployed to this edge node, and states no `constraints`.
+- It provides values for two `properties` (`sensor`, `location` and `device`), that will affect which services get deployed to this edge node, and states no `constraints`.
 
 If needed, run the following commands to set the environment variables needed by the `object.json` file in your shell:
 

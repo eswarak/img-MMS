@@ -5,7 +5,8 @@
   "destinationPolicy": {
     "properties": [],
     "constraints": [
-        "location == backyard"
+        "location == backyard",
+        "device == %HOSTNAME%"
      ],
     "services": [
        {
