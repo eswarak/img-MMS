@@ -37,29 +37,29 @@ sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" horizon/node_policy.json
 
 1. Register your edge device with this node policy:
 
-```bash
-hzn register --policy horizon/node_policy.json
-```
+   ```bash
+   hzn register --policy horizon/node_policy.json
+   ```
 
 2. When the registration completes, use the following command to review the Node Policy:
 
-```bash
-hzn policy list
-```
+   ```bash
+   hzn policy list
+   ```
 
 - Notice that in addition to the two `properties` stated in the `node_policy.json` file, Horizon has added a few more: `openhorizon.cpu`, `openhorizon.arch`, and `openhorizon.memory`. Horizon provides this additional information automatically and these `properties` may be used in any of your Policy `constraints`.
 
 4. The edge device will make an agreement with one of the IEAM agreement bots (this typically takes about 15 seconds). Repeatedly query the agreements of this device until the `agreement_finalized_time` and `agreement_execution_start_time` fields are filled in:
 
-```bash
-hzn agreement list
-```
+   ```bash
+   hzn agreement list
+   ```
 
 5. After the agreement is made, list the edge service docker container that has been started as a result:
 
-```bash
-sudo docker ps
-```
+   ```bash
+   sudo docker ps
+   ```
 
 
 6. See the `image.demo-mms` service output:
@@ -94,52 +94,54 @@ Open Chrome and navigate to `HTTP://HOSTNAME:PORT` where `HOSTNAME`=Node Host Na
 11. Before publishing the new ML model,  review the `metadata` file provided to update ML models using MMS publish capabilities
 
 
-- Below is the `mms/object.json` file provided in this example:
+  - Below is the `mms/object.json` file provided in this example:
 
-```json
-{
-  "objectID": "%HOSTNAME%-index.js",
-  "objectType": "model",
-  "destinationOrgID": "$HZN_ORG_ID",
-  "destinationPolicy": {
-    "properties": [],
-    "constraints": [
-        "location == backyard"
-     ],
-    "services": [
-       {
-	 "orgID" : "$HZN_ORG_ID",
-         "arch": "$ARCH",
-         "serviceName" : "$SERVICE_NAME",
-         "version": "$SERVICE_VERSION"
-       }
-    ]
-  }, 
-  "expiration": "",
-  "version": "1.0.0",
-  "description": "image demo with tensorflow models",
-  "activationTime": ""
-}
-```
+    ```json
+    {
+      "objectID": "%HOSTNAME%-index.js",
+      "objectType": "model",
+      "destinationOrgID": "$HZN_ORG_ID",
+      "destinationPolicy": {
+        "properties": [],
+        "constraints": [
+           "location == backyard",
+           "device == %HOSTNAME%"
+         ],
+       "services": [
+          {
+	          "orgID" : "$HZN_ORG_ID",
+            "arch": "$ARCH",
+            "serviceName" : "$SERVICE_NAME",
+            "version": "$SERVICE_VERSION"
+          }
+        ]
+      }, 
+      "expiration": "",
+      "version": "1.0.0",
+      "description": "image demo with tensorflow models",
+      "activationTime": ""
+    }
+    ```
 
 12. Publish the `mms/index.js` file as a new MMS object to update the existing ML model with:
-```bash
-sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" mms/object.json
-hzn mms object publish -m mms/object.json -f mms/index.js
-```
+    ```bash
+    sed -i "s/\%HOSTNAME\%/$HOSTNAME/g" mms/object.json
+    cp mms/index.js mms/$HOSTNAME-index.js
+    hzn mms object publish -m mms/object.json -f mms/$HOSTNAME-index.js
+    ```
 
 13. View the published MMS object:
-```bash
-hzn mms object list -t model -i $HOSTNAME-index.js -d
-```
+    ```bash
+    hzn mms object list -t model -i $HOSTNAME-index.js -d
+    ```
 
-A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from 
+    A few seconds after the `status` field changes to `delivered` you will see in the console the output of the image detection service change from 
 
-**loading mobilenet ...**
+    **loading mobilenet ...**
 
-to 
+    to 
 
-**Loading cocoSSD ...**
+    **Loading cocoSSD ...**
 
 
 14. Next, test both images, you will observe better results in images with multiple objects:
@@ -150,27 +152,27 @@ to
 Optional:
 
 15. Delete the published mms object with:
-```bash
-hzn mms object delete -t model --id $HOSTNAME-index.js
-```
+    ```bash
+    hzn mms object delete -t model --id $HOSTNAME-index.js
+    ```
 
 16. Unregister your edge node, which will also stop the `image.demo-mms` service:
 
-```bash
-hzn unregister
-```
+    ```bash
+    hzn unregister
+    ```
 
 17. Remove the business policy:
 
-```bash
-hzn exchange business removepolicy $HOSTNAME-image.demo-mms.bp
-```
+    ```bash
+    hzn exchange business removepolicy $HOSTNAME-image.demo-mms.bp
+    ```
 
 18. Remove the service policy:
 
-```bash
-hzn exchange service removepolicy $HOSTNAME-image.demo-mms_1.0.0_amd64
-```
+    ```bash
+    hzn exchange service removepolicy $HOSTNAME-image.demo-mms_1.0.0_amd64
+    ```
 See more details at:
 [More MMS Details](mms-details.md)
 
