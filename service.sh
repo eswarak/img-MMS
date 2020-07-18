@@ -10,7 +10,7 @@
 
 # The type and name of the MMS file we are using
 OBJECT_TYPE=model
-OBJECT_ID=index.js
+OBJECT_ID=%HOSTNAME%-index.js
 PATH_TO_MODEL=/var/www/localhost/htdocs
 
 # ${HZN_ESS_AUTH} is mounted to this container by the Horizon agent and is a json file with the credentials for authenticating to ESS.
